@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function AddPlayerMenu({ players }) {
+function AddPlayerMenu({ players, setAddingNewPlayer }) {
   const teams = [...new Set(players.flatMap((el) => el.team))];
 
   const [currTeam, setCurrTeam] = useState(teams.at(0));
@@ -54,7 +54,10 @@ function AddPlayerMenu({ players }) {
             </button>
           </div>
           <div className="flex justify-center mt-4">
-            <button className="w-40 h-10 bg-neutral-100 text-neutral-700 text-xl px-4-py-2 rounded-lg hover:bg-red-800 transition-colors duration-500 hover:text-stone-200">
+            <button
+              onClick={() => setAddingNewPlayer(false)}
+              className="w-40 h-10 bg-neutral-100 text-neutral-700 text-xl px-4-py-2 rounded-lg hover:bg-red-800 transition-colors duration-500 hover:text-stone-200"
+            >
               Close
             </button>
           </div>
