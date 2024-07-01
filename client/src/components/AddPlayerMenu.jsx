@@ -8,6 +8,7 @@ function AddPlayerMenu({ players, setAddingNewPlayer, setSelectedPlayers }) {
 
   function addPlayerToSelectedPlayers(e) {
     e.preventDefault();
+    console.log(player, currTeam);
     setSelectedPlayers((curr) => [
       ...curr,
       players.find((el) => el.team === currTeam && el.name === player),
@@ -28,7 +29,12 @@ function AddPlayerMenu({ players, setAddingNewPlayer, setSelectedPlayers }) {
               name="team"
               className="text-neutral-700"
               value={currTeam}
-              onChange={(e) => setCurrTeam(e.target.value)}
+              onChange={(e) => {
+                setCurrTeam(e.target.value);
+                setPlayer(
+                  players.filter((el) => el.team === e.target.value).at(0).name
+                );
+              }}
             >
               {teams.map((el) => (
                 <option value={el}>{el}</option>
