@@ -2,12 +2,20 @@ import { useState } from "react";
 
 function AddPlayerMenu({ players, setAddingNewPlayer, setSelectedPlayers }) {
   const teams = [...new Set(players.flatMap((el) => el.team))];
+  const [invalidInput, setInvalidInput] = useState(false);
 
-  const [currTeam, setCurrTeam] = useState(teams.at(0));
-  const [player, setPlayer] = useState("");
+  const [currTeam, setCurrTeam] = useState("Team");
+  const [player, setPlayer] = useState("Player");
 
   function addPlayerToSelectedPlayers(e) {
     e.preventDefault();
+    console.log(currTeam);
+    if (currTeam === "Team" || player === "Player") {
+      setInvalidInput(true);
+      return;
+    } else {
+      setInvalidInput(false);
+    }
     console.log(player, currTeam);
     setSelectedPlayers((curr) => [
       ...curr,
@@ -36,6 +44,7 @@ function AddPlayerMenu({ players, setAddingNewPlayer, setSelectedPlayers }) {
                 );
               }}
             >
+              <option value="Team">Team</option>
               {teams.map((el) => (
                 <option value={el}>{el}</option>
               ))}
@@ -51,6 +60,7 @@ function AddPlayerMenu({ players, setAddingNewPlayer, setSelectedPlayers }) {
                 setPlayer(e.target.value);
               }}
             >
+              <option value="Player">Player</option>
               {players
                 .filter((el) => el.team === currTeam)
                 .map((el) => (
@@ -74,6 +84,11 @@ function AddPlayerMenu({ players, setAddingNewPlayer, setSelectedPlayers }) {
               Close
             </button>
           </div>
+          {invalidInput && (
+            <p className="text-red-600 flex justify-center text-xl m-6">
+              Please select a valid input
+            </p>
+          )}
         </form>
       </div>
     </div>
