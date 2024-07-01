@@ -6,8 +6,9 @@ const url = "https://fbref.com/en/comps/676/stats/European-Championship-Stats"; 
 const getData = async () => {
   const browser = await puppeteer.launch(); // start puppeteer browser
   const page = await browser.newPage(); // start puppeteer page
-  await page.goto(url); // go to the page
-  await page.waitForSelector("#all_stats_standard", { timeout: 60000 }); // wait for the head div to load
+  await page.goto(url, { waitUntil: "networkidle2" }); // go to the page
+  await page.screenshot({ path: `${__dirname}/screenshot.png` });
+  await page.waitForSelector("#all_stats_standard", { timeout: 30000 }); // wait for the head div to load
   const playerData = await page.$eval("#all_stats_standard", (element) => {
     // select head div with a callback function to return something
     const innerDiv = element.querySelector("#div_stats_standard"); // select innerdiv
@@ -53,7 +54,8 @@ const getData = async () => {
       return "No inner div found";
     }
   });
-  browser.close();
+  await page.close();
+  await browser.close();
   return playerData;
 };
 
@@ -64,15 +66,27 @@ const getData = async () => {
 
 // printData();
 
-exports.getPlayersEuros24 = (req, res) => {
-  getData().then((data) =>
-    res.status(200).json({
-      status: "successful",
-      requestedAt: req.requestTime,
-      results: data.length,
-      data: {
-        players: data,
-      },
-    })
-  );
+exports.savePlayerDataEuros24 = (req, res) => {
+  getData().then((players) => {
+    fs.writeFile(
+      `${__dirname}/data/euroData.json`,
+      JSON.stringify(players),
+      (err) => {
+        if (err) {
+          res.status(500).json({
+            status: "error",
+            message: "Failed to save player data",
+          });
+        }
+        res.status(200).json({
+          status: "successful",
+          requestedAt: req.requestTime,
+          results: players.length,
+          data: {
+            players,
+          },
+        });
+      }
+    );
+  });
 };
