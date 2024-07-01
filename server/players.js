@@ -1,20 +1,16 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
 const fs = require("fs");
 const puppeteer = require("puppeteer");
 
 exports.getPlayers = (req, res) => {};
 
-const url = "https://fbref.com/en/comps/676/stats/European-Championship-Stats";
-
-let eurosPlayers = [];
+const url = "https://fbref.com/en/comps/9/stats/Premier-League-Stats"; // turns out u can use any fbref standard site urls here
 
 const getData = async () => {
   const browser = await puppeteer.launch(); // start puppeteer browser
   const page = await browser.newPage(); // start puppeteer page
   await page.goto(url); // go to the page
   await page.waitForSelector("#all_stats_standard"); // wait for the head div to load
-  const headDiv = await page.$eval("#all_stats_standard", (element) => {
+  const playerData = await page.$eval("#all_stats_standard", (element) => {
     // select head div with a callback function to return something
     const innerDiv = element.querySelector("#div_stats_standard"); // select innerdiv
     if (innerDiv) {
@@ -23,7 +19,28 @@ const getData = async () => {
       if (table) {
         const tbody = table.querySelector("tbody"); // select tbody in the table
         if (tbody) {
-          const rows = Array.from(tbody.querySelectorAll("tr")); // select tr in the tbody
+          let rows = Array.from(tbody.querySelectorAll("tr")); // select tr in the tbody
+          rows = rows.filter((row) => !row.classList.contains("thead")); // remove all rows with names of the data
+          rows = rows.map((row) => {
+            const cells = Array.from(row.querySelectorAll("td")).map(
+              (cell) => cell.innerText
+            ); // get the inner stats from each row
+            return {
+              name: cells.at(0),
+              team: cells.at(2),
+              matchesPlayed: cells.at(5),
+              matchesStarted: cells.at(6),
+              minPlayed: cells.at(7),
+              goals: cells.at(9),
+              assists: cells.at(10),
+              ga: cells.at(11),
+              penalties: cells.at(13),
+              gaPer90: cells.at(26),
+              xGPer90: cells.at(29),
+              xGAPer90: cells.at(31),
+              npXGAPer90: cells.at(33),
+            }; // make the object
+          });
           return rows;
         } else {
           return "No tbody found";
@@ -36,45 +53,12 @@ const getData = async () => {
     }
   });
   browser.close();
-  return headDiv.length;
+  return playerData;
 };
 
 async function printData() {
   const data = await getData();
-  console.log(data);
-  // eurosPlayers = eurosPlayers.map((curr) =>
-  //   curr.split(" ").reverse().join(" ")
-  // );
-  // eurosPlayers.map((curr) => console.log(curr));
+  console.log(data.map((el) => el.name));
 }
 
 printData();
-
-// const getHTML = async () => {
-//   // get all the html from the website
-//   const { data } = await axios.get(url);
-//   return data;
-// };
-
-// const getData = async () => {
-//   const data = await getHTML();
-//   const $ = cheerio.load(data);
-//   const allStatsStandardDiv = $("#div_stats_standard");
-//   console.log(allStatsStandardDiv.length);
-//   //   $(tbody)
-//   //     .find("tr") // get data by each 'tr' element
-//   //     .each((i, tr) => {
-//   //       if ($(tr).attr("class") !== "thread") {
-//   //         $(tr)
-//   //           .find("td")
-//   //           .each((i, td) => {
-//   //             // get data by each th element
-//   //             console.log($(td).attr("data-stat"));
-//   //             if ($(td).attr("data-stat") === "player") {
-//   //               const name = $(td).attr("csk"); // get the name which is attached to the csk attribute
-//   //               eurosPlayers.push(name);
-//   //             }
-//   //           });
-//   //       }
-//   //     });
-// };
