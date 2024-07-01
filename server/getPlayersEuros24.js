@@ -7,7 +7,7 @@ const getData = async () => {
   const browser = await puppeteer.launch(); // start puppeteer browser
   const page = await browser.newPage(); // start puppeteer page
   await page.goto(url); // go to the page
-  await page.waitForSelector("#all_stats_standard"); // wait for the head div to load
+  await page.waitForSelector("#all_stats_standard", { timeout: 60000 }); // wait for the head div to load
   const playerData = await page.$eval("#all_stats_standard", (element) => {
     // select head div with a callback function to return something
     const innerDiv = element.querySelector("#div_stats_standard"); // select innerdiv
