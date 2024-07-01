@@ -18,7 +18,7 @@ import StatComponent from "./StatComponent";
 //   xGAPer90NoPens: "0.77",
 // };
 
-function CardComponent({ player }) {
+function CardComponent({ player, setSelectedPlayers }) {
   const {
     name,
     team,
@@ -36,10 +36,18 @@ function CardComponent({ player }) {
   } = player;
   return (
     <div className="w-96 rounded-2xl shadow-lg bg-neutral-700 mx-10 my-8 flex flex-col">
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 justify-between flex items-center">
         <h1 className="font-bold text-xl mb-2 items-center uppercase flex justify-center">
           {name}
         </h1>
+        <button
+          onClick={() =>
+            setSelectedPlayers((curr) => curr.filter((el) => el !== player))
+          }
+          className="text-xl hover:text-red-600 transition-colors duration-200"
+        >
+          X
+        </button>
       </div>
       <div className="flex-1 overflow-y-scroll px-6 py-4">
         <StatComponent type="Team" data={team} />

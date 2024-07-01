@@ -26,19 +26,16 @@ function MainPage() {
     };
   }, [players]);
 
-  const kane = players.find((el) => el.name === "Harry Kane");
-  const ronaldo = players.find((el) => el.name === "Cristiano Ronaldo");
-  const musiala = players.find((el) => el.name === "Jamal Musiala");
-
   return players.length > 0 ? (
     <div className="h-screen min-w-max pt-[7vh] bg-neutral-800 text-stone-100 overflow-y-hidden overflow-x-auto flex">
-      <CardComponent player={kane} />
-      <CardComponent player={ronaldo} />
-      <CardComponent player={musiala} />
+      {selectedPlayers.map((el) => (
+        <CardComponent player={el} setSelectedPlayers={setSelectedPlayers} />
+      ))}
       {addingNewPlayer ? (
         <AddPlayerMenu
           setAddingNewPlayer={setAddingNewPlayer}
           players={players}
+          setSelectedPlayers={setSelectedPlayers}
         />
       ) : (
         <AddPlayerCard setAddingNewPlayer={setAddingNewPlayer} />

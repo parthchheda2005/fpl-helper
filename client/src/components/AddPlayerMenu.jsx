@@ -1,12 +1,19 @@
 import { useState } from "react";
 
-function AddPlayerMenu({ players, setAddingNewPlayer }) {
+function AddPlayerMenu({ players, setAddingNewPlayer, setSelectedPlayers }) {
   const teams = [...new Set(players.flatMap((el) => el.team))];
 
   const [currTeam, setCurrTeam] = useState(teams.at(0));
   const [player, setPlayer] = useState("");
 
-  function addPlayerToSelectedPlayers() {}
+  function addPlayerToSelectedPlayers(e) {
+    e.preventDefault();
+    setSelectedPlayers((curr) => [
+      ...curr,
+      players.find((el) => el.team === currTeam && el.name === player),
+    ]);
+    setAddingNewPlayer(false);
+  }
 
   return (
     <div className="w-96 rounded-2xl shadow-lg bg-neutral-700 mx-10 my-8 flex flex-col">
@@ -14,7 +21,7 @@ function AddPlayerMenu({ players, setAddingNewPlayer }) {
         <h1 className="font-bold text-4xl mb-2 items-center uppercase flex justify-center">
           Add a player!
         </h1>
-        <form onSubmit={addPlayerToSelectedPlayers}>
+        <form onSubmit={(e) => addPlayerToSelectedPlayers(e)}>
           <div className="my-8 flex justify-between text-xl">
             <h1>Team: </h1>{" "}
             <select
