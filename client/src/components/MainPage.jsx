@@ -30,7 +30,11 @@ function MainPage() {
   return players.length > 0 ? (
     <div className="h-screen min-w-max pt-[7vh] bg-neutral-800 text-stone-100 overflow-y-hidden overflow-x-auto flex">
       {selectedPlayers.map((el) => (
-        <CardComponent player={el} setSelectedPlayers={setSelectedPlayers} />
+        <CardComponent
+          player={el}
+          selectedPlayers={selectedPlayers}
+          setSelectedPlayers={setSelectedPlayers}
+        />
       ))}
       {addingNewPlayer ? (
         <AddPlayerMenu

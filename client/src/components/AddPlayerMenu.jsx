@@ -29,31 +29,33 @@ function AddPlayerMenu({
 
     let updatedSelectedPlayers = [...selectedPlayers, newPlayer];
 
-    stats.forEach((stat) => {
-      let max = Math.max(
-        ...updatedSelectedPlayers.map((player) => player[stat])
-      );
-      let min = Math.min(
-        ...updatedSelectedPlayers.map((player) => player[stat])
-      );
+    if (updatedSelectedPlayers.length > 1) {
+      stats.forEach((stat) => {
+        let max = Math.max(
+          ...updatedSelectedPlayers.map((player) => player[stat])
+        );
+        let min = Math.min(
+          ...updatedSelectedPlayers.map((player) => player[stat])
+        );
 
-      updatedSelectedPlayers = updatedSelectedPlayers.map((player) => {
-        const newStatus = { ...player.statsHighlightStatus };
-        if (player[stat] * 1 === max) {
-          newStatus[stat] = "max";
-        } else if (player[stat] * 1 === min) {
-          newStatus[stat] = "min";
-        } else {
-          newStatus[stat] = "none";
-        }
-        return {
-          ...player,
-          statsHighlightStatus: newStatus,
-        };
+        updatedSelectedPlayers = updatedSelectedPlayers.map((player) => {
+          const newStatus = { ...player.statsHighlightStatus };
+          if (player[stat] * 1 === max) {
+            newStatus[stat] = "max";
+          } else if (player[stat] * 1 === min) {
+            newStatus[stat] = "min";
+          } else {
+            newStatus[stat] = "none";
+          }
+          return {
+            ...player,
+            statsHighlightStatus: newStatus,
+          };
+        });
       });
-    });
+    }
 
-    console.log(updatedSelectedPlayers); // Add this for debugging
+    console.log(updatedSelectedPlayers);
     setSelectedPlayers(updatedSelectedPlayers);
   }
 
