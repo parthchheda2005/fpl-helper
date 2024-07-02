@@ -1,6 +1,10 @@
-function StatComponent({ type, data }) {
+function StatComponent({ type, data, highlight = "" }) {
   return (
-    <div className="flex justify-between px-3 py-5 border-t-2 border-dotted border-gray-400">
+    <div
+      className={`flex justify-between px-3 py-5 border-t-2 border-dotted border-gray-400 ${
+        highlight === "max" && "bg-green-900"
+      } ${highlight === "min" && "bg-red-900"} hover:font-bold`}
+    >
       <span className="capitalize">{type}: </span>
       <span>{data}</span>
     </div>

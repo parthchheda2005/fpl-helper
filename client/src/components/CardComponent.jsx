@@ -33,6 +33,7 @@ function CardComponent({ player, setSelectedPlayers }) {
     xGPer90,
     xGAPer90,
     npXGAPer90,
+    statsHighlightStatus,
   } = player;
   return (
     <div className="w-96 rounded-2xl shadow-lg bg-neutral-700 mx-10 my-8 flex flex-col">
@@ -51,17 +52,61 @@ function CardComponent({ player, setSelectedPlayers }) {
       </div>
       <div className="flex-1 overflow-y-scroll px-6 py-4">
         <StatComponent type="Team" data={team} />
-        <StatComponent type="Matches Played" data={matchesPlayed} />
-        <StatComponent type="starts" data={matchesStarted} />
-        <StatComponent type="minutes played" data={minPlayed} />
-        <StatComponent type="Goals" data={goals} />
-        <StatComponent type="Assists" data={assists} />
-        <StatComponent type="penalties" data={penalties} />
-        <StatComponent type="Goals + Assists" data={ga} />
-        <StatComponent type="Goals + Assists per 90" data={gaPer90} />
-        <StatComponent type="xG per 90" data={xGPer90} />
-        <StatComponent type="xG + xA per 90" data={xGAPer90} />
-        <StatComponent type="Non-Penalty xG + xA per 90" data={npXGAPer90} />
+        <StatComponent
+          type="Matches Played"
+          data={matchesPlayed}
+          highlight={statsHighlightStatus.matchesPlayed}
+        />
+        <StatComponent
+          type="starts"
+          data={matchesStarted}
+          highlight={statsHighlightStatus.matchesStarted}
+        />
+        <StatComponent
+          type="minutes played"
+          data={minPlayed}
+          highlight={statsHighlightStatus.minPlayed}
+        />
+        <StatComponent
+          type="Goals"
+          data={goals}
+          highlight={statsHighlightStatus.goals}
+        />
+        <StatComponent
+          type="Assists"
+          data={assists}
+          highlight={statsHighlightStatus.assists}
+        />
+        <StatComponent
+          type="penalties"
+          data={penalties}
+          highlight={statsHighlightStatus.penalties}
+        />
+        <StatComponent
+          type="Goals + Assists"
+          data={ga}
+          highlight={statsHighlightStatus.ga}
+        />
+        <StatComponent
+          type="Goals + Assists per 90"
+          data={gaPer90}
+          highlight={statsHighlightStatus.gaPer90}
+        />
+        <StatComponent
+          type="xG per 90"
+          data={xGPer90}
+          highlight={statsHighlightStatus.xGPer90}
+        />
+        <StatComponent
+          type="xG + xA per 90"
+          data={xGAPer90}
+          highlight={statsHighlightStatus.xGAPer90}
+        />
+        <StatComponent
+          type="Non-Penalty xG + xA per 90"
+          data={npXGAPer90}
+          highlight={statsHighlightStatus.npXGAPer90}
+        />
       </div>
     </div>
   );

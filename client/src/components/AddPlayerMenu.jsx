@@ -1,26 +1,92 @@
 import { useState } from "react";
 
-function AddPlayerMenu({ players, setAddingNewPlayer, setSelectedPlayers }) {
-  const teams = [...new Set(players.flatMap((el) => el.team))];
+function AddPlayerMenu({
+  players,
+  setAddingNewPlayer,
+  setSelectedPlayers,
+  selectedPlayers,
+}) {
+  const teams = [...new Set(players.map((el) => el.team))];
   const [invalidInput, setInvalidInput] = useState(false);
 
   const [currTeam, setCurrTeam] = useState("Team");
   const [player, setPlayer] = useState("Player");
 
+  function updateHighlighting(newPlayer) {
+    const stats = [
+      "matchesPlayed",
+      "matchesStarted",
+      "minPlayed",
+      "goals",
+      "assists",
+      "ga",
+      "penalties",
+      "gaPer90",
+      "xGPer90",
+      "xGAPer90",
+      "npXGAPer90",
+    ];
+
+    let updatedSelectedPlayers = [...selectedPlayers, newPlayer];
+
+    stats.forEach((stat) => {
+      let max = Math.max(
+        ...updatedSelectedPlayers.map((player) => player[stat])
+      );
+      let min = Math.min(
+        ...updatedSelectedPlayers.map((player) => player[stat])
+      );
+
+      updatedSelectedPlayers = updatedSelectedPlayers.map((player) => {
+        const newStatus = { ...player.statsHighlightStatus };
+        if (player[stat] * 1 === max) {
+          newStatus[stat] = "max";
+        } else if (player[stat] * 1 === min) {
+          newStatus[stat] = "min";
+        } else {
+          newStatus[stat] = "none";
+        }
+        return {
+          ...player,
+          statsHighlightStatus: newStatus,
+        };
+      });
+    });
+
+    console.log(updatedSelectedPlayers); // Add this for debugging
+    setSelectedPlayers(updatedSelectedPlayers);
+  }
+
   function addPlayerToSelectedPlayers(e) {
     e.preventDefault();
-    console.log(currTeam);
     if (currTeam === "Team" || player === "Player") {
       setInvalidInput(true);
       return;
     } else {
       setInvalidInput(false);
     }
-    console.log(player, currTeam);
-    setSelectedPlayers((curr) => [
-      ...curr,
-      players.find((el) => el.team === currTeam && el.name === player),
-    ]);
+
+    let playerToAdd = players.find(
+      (el) => el.team === currTeam && el.name === player
+    );
+    playerToAdd = {
+      ...playerToAdd,
+      statsHighlightStatus: {
+        matchesPlayed: "none",
+        matchesStarted: "none",
+        minPlayed: "none",
+        goals: "none",
+        assists: "none",
+        ga: "none",
+        penalties: "none",
+        gaPer90: "none",
+        xGPer90: "none",
+        xGAPer90: "none",
+        npXGAPer90: "none",
+      },
+    };
+
+    updateHighlighting(playerToAdd);
     setAddingNewPlayer(false);
   }
 
@@ -39,21 +105,24 @@ function AddPlayerMenu({ players, setAddingNewPlayer, setSelectedPlayers }) {
               value={currTeam}
               onChange={(e) => {
                 setCurrTeam(e.target.value);
-                setPlayer(
-                  players.filter((el) => el.team === e.target.value).at(0).name
+                const firstPlayer = players.find(
+                  (el) => el.team === e.target.value
                 );
+                setPlayer(firstPlayer ? firstPlayer.name : "Player");
               }}
             >
               <option value="Team">Team</option>
               {teams.map((el) => (
-                <option value={el}>{el}</option>
+                <option key={el} value={el}>
+                  {el}
+                </option>
               ))}
             </select>
           </div>
           <div className="my-10 flex justify-between text-xl">
             <h1>Player: </h1>{" "}
             <select
-              name="team"
+              name="player"
               className="text-neutral-700"
               value={player}
               onChange={(e) => {
@@ -64,7 +133,9 @@ function AddPlayerMenu({ players, setAddingNewPlayer, setSelectedPlayers }) {
               {players
                 .filter((el) => el.team === currTeam)
                 .map((el) => (
-                  <option value={el.name}>{el.name}</option>
+                  <option key={el.name} value={el.name}>
+                    {el.name}
+                  </option>
                 ))}
             </select>
           </div>

@@ -8,6 +8,7 @@ function MainPage() {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
 
+  // get players
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -36,6 +37,7 @@ function MainPage() {
           setAddingNewPlayer={setAddingNewPlayer}
           players={players}
           setSelectedPlayers={setSelectedPlayers}
+          selectedPlayers={selectedPlayers}
         />
       ) : (
         <AddPlayerCard setAddingNewPlayer={setAddingNewPlayer} />
