@@ -11,7 +11,8 @@ const euroPlayers = JSON.parse(
   fs.readFileSync(`${__dirname}/data/euroData.json`)
 );
 
-app.post("/players/v1/euros/save", (req, res) => {
+app.get("/players/v1/euros/save", (req, res) => {
+  console.log("savePlayerDataEuros24 called");
   savePlayerDataEuros24(req, res);
 });
 

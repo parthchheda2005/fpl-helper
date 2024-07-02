@@ -3,8 +3,7 @@ import CardComponent from "./CardComponent";
 import AddPlayerCard from "./AddPlayerCard";
 import AddPlayerMenu from "./AddPlayerMenu";
 
-function MainPage() {
-  const [players, setPlayers] = useState([]);
+function MainPage({ players, setPlayers }) {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
 
