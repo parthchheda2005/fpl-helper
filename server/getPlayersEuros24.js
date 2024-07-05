@@ -59,13 +59,6 @@ const getData = async () => {
   return playerData;
 };
 
-// async function printData() {
-//   const data = await getData();
-//   console.log(data.map((el) => el.name));
-// }
-
-// printData();
-
 exports.savePlayerDataEuros24 = (req, res) => {
   getData().then((players) => {
     fs.writeFile(
