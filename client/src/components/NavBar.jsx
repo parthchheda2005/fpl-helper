@@ -4,12 +4,15 @@ function NavBar(players = { players, setPlayers }) {
 
     fetch("http://127.0.0.1:8000/players/v1/euros/save")
       .then((res) => {
+        console.log("in res");
         return res.json();
       })
       .then((data) => {
+        console.log("in data");
+        console.log(data.data.euroPlayers);
         setPlayers(data.data.euroPlayers);
       })
-      .catch((err) => console.log("failed to fetch"));
+      .catch((err) => console.log(err.message));
   }
 
   return (
