@@ -1,5 +1,7 @@
 const fs = require("fs");
 const puppeteer = require("puppeteer");
+const mongoose = require("mongoose");
+const Euro = require("./euroPlayerModel");
 
 const url = "https://fbref.com/en/comps/676/stats/European-Championship-Stats"; // turns out u can use any fbref standard site urls here
 
@@ -20,27 +22,24 @@ const getData = async () => {
         if (tbody) {
           let rows = Array.from(tbody.querySelectorAll("tr")); // select tr in the tbody
           rows = rows.filter((row) => !row.classList.contains("thead")); // remove all rows with names of the data
-          let id = -1;
           rows = rows.map((row) => {
-            id = id + 1;
             const cells = Array.from(row.querySelectorAll("td")).map(
               (cell) => cell.innerText
             ); // get the inner stats from each row
             return {
-              id,
               name: cells.at(0),
               team: cells.at(2).split(" ").at(1),
-              matchesPlayed: cells.at(5),
-              matchesStarted: cells.at(6),
-              minPlayed: cells.at(7),
-              goals: cells.at(9),
-              assists: cells.at(10),
-              ga: cells.at(11),
-              penalties: cells.at(13),
-              gaPer90: cells.at(26),
-              xGPer90: cells.at(29),
-              xGAPer90: cells.at(31),
-              npXGAPer90: cells.at(33),
+              matchesPlayed: cells.at(5) * 1,
+              matchesStarted: cells.at(6) * 1,
+              minPlayed: cells.at(7) * 1,
+              goals: cells.at(9) * 1,
+              assists: cells.at(10) * 1,
+              ga: cells.at(11) * 1,
+              penalties: cells.at(13) * 1,
+              gaPer90: cells.at(26) * 1,
+              xGPer90: cells.at(29) * 1,
+              xGAPer90: cells.at(31) * 1,
+              npXGAPer90: cells.at(33) * 1,
             }; // make the object
           });
           return rows;
@@ -59,27 +58,28 @@ const getData = async () => {
   return playerData;
 };
 
-exports.savePlayerDataEuros24 = (req, res) => {
-  getData().then((players) => {
-    fs.writeFile(
-      `${__dirname}/data/euroData.json`,
-      JSON.stringify(players),
-      (err) => {
-        if (err) {
-          res.status(500).json({
-            status: "error",
-            message: "Failed to save player data",
-          });
-        }
-        res.status(200).json({
-          status: "successful",
-          requestedAt: req.requestTime,
-          results: players.length,
-          data: {
-            players,
-          },
-        });
-      }
-    );
-  });
+exports.refreshEuroData = async (req, res) => {
+  try {
+    const data = await getData();
+    await Euro.deleteMany({ goals: { $gte: 0 } });
+    await Promise.all(data.map((player) => Euro.create(player)));
+    res.status(201).json({
+      status: "success",
+      data,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+exports.getEuroData = async (req, res) => {
+  try {
+    const data = await Euro.find();
+    res.status(200).json({
+      status: "success",
+      data,
+    });
+  } catch (e) {
+    console.error(e);
+  }
 };
