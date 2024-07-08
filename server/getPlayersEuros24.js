@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 const mongoose = require("mongoose");
 const Euro = require("./euroPlayerModel");
 
-const url = "https://fbref.com/en/comps/676/stats/European-Championship-Stats"; // turns out u can use any fbref standard site urls here
+const url = "https://fbref.com/en/comps/676/stats/UEFA-Euro-Stats"; // turns out u can use any fbref standard site urls here
 
 const getData = async () => {
   const browser = await puppeteer.launch(); // start puppeteer browser

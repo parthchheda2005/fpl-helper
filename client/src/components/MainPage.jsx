@@ -2,53 +2,94 @@ import { useEffect, useState } from "react";
 import CardComponent from "./CardComponent";
 import AddPlayerCard from "./AddPlayerCard";
 import AddPlayerMenu from "./AddPlayerMenu";
+import Spinner from "./Spinner";
 
-function MainPage({ players, setPlayers }) {
+function MainPage({ refreshPlayers, setRefreshPlayers }) {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
+  const [players, setPlayers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // get players
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetch("http://127.0.0.1:8000/players/v1/euros/get", { signal: signal })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setPlayers(data.data.euroPlayers);
-      })
-      .catch((err) => console.log("failed to fetch"));
+    const refreshingPlayers = async () => {
+      setIsLoading(true);
+      setSelectedPlayers([]);
+      try {
+        const res = await fetch(
+          "http://127.0.0.1:8000/players/v1/euros/refresh",
+          {
+            signal: signal,
+          }
+        );
+        const data = await res.json();
+        setPlayers(data.data);
+        setRefreshPlayers(false);
+      } catch (error) {
+        console.log("failed to fetch");
+      }
+      setIsLoading(false);
+    };
+
+    const gettingPlayers = async () => {
+      setIsLoading(true);
+      setSelectedPlayers([]);
+      try {
+        const res = await fetch("http://127.0.0.1:8000/players/v1/euros/get", {
+          signal: signal,
+        });
+        const data = await res.json();
+        setPlayers(data.data);
+      } catch (error) {
+        console.log("failed to fetch");
+      }
+      setIsLoading(false);
+    };
+
+    if (refreshPlayers) {
+      refreshingPlayers();
+    } else {
+      gettingPlayers();
+    }
 
     return () => {
       controller.abort();
     };
-  }, [players]);
+  }, [refreshPlayers]);
 
-  return players.length > 0 ? (
-    <div className="h-screen min-w-max pt-[7vh] bg-neutral-800 text-stone-100 overflow-y-hidden overflow-x-auto flex">
-      {selectedPlayers.map((el) => (
-        <CardComponent
-          player={el}
-          selectedPlayers={selectedPlayers}
-          setSelectedPlayers={setSelectedPlayers}
-        />
-      ))}
-      {addingNewPlayer ? (
-        <AddPlayerMenu
-          setAddingNewPlayer={setAddingNewPlayer}
-          players={players}
-          setSelectedPlayers={setSelectedPlayers}
-          selectedPlayers={selectedPlayers}
-        />
+  return (
+    <div
+      className={`h-screen min-w-max pt-[7vh] bg-neutral-800 text-stone-100 overflow-y-hidden overflow-x-auto flex ${
+        isLoading && "justify-center items-center"
+      }`}
+    >
+      {isLoading ? (
+        <Spinner />
       ) : (
-        <AddPlayerCard setAddingNewPlayer={setAddingNewPlayer} />
+        <>
+          {selectedPlayers.map((el) => (
+            <CardComponent
+              key={el.id} // Assuming each player object has a unique id
+              player={el}
+              selectedPlayers={selectedPlayers}
+              setSelectedPlayers={setSelectedPlayers}
+            />
+          ))}
+          {addingNewPlayer ? (
+            <AddPlayerMenu
+              setAddingNewPlayer={setAddingNewPlayer}
+              players={players}
+              setSelectedPlayers={setSelectedPlayers}
+              selectedPlayers={selectedPlayers}
+            />
+          ) : (
+            <AddPlayerCard setAddingNewPlayer={setAddingNewPlayer} />
+          )}
+        </>
       )}
-    </div>
-  ) : (
-    <div className="w-32 aspect-square rounded-full relative flex justify-center items-center animate-spin z-40 bg-conic-gradient(white_0deg, white_300deg, transparent_270deg, transparent_360deg) before-animate-spin_2s_linear_infinite before:absolute before:w-[60%] before:aspect-square before:rounded-full before:z-[80] before:bg-conic-gradient(white_0deg, white_270deg, transparent_180deg, transparent_360deg) after:absolute after:w-3/4 after:aspect-square after:rounded-full after:z-[60] after-animate-spin_3s_linear_infinite after:bg-conic-gradient(#065f46_0deg, #065f46_180deg, transparent_180deg, transparent_360deg)">
-      <span className="absolute w-[85%] aspect-square rounded-full z-[60] animate-spin_5s_linear_infinite bg-conic-gradient(#34d399_0deg, #34d399_180deg, transparent_180deg, transparent_360deg)"></span>
     </div>
   );
 }

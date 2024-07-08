@@ -18,10 +18,6 @@ mongoose
   })
   .then((con) => console.log("DB Connection successful"));
 
-const euroPlayers = JSON.parse(
-  fs.readFileSync(`${__dirname}/data/euroData.json`)
-);
-
 app.get("/players/v1/euros/refresh", refreshEuroData);
 
 app.get("/players/v1/euros/get", getEuroData);

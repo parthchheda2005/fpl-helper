@@ -4,12 +4,14 @@ import MainPage from "./components/MainPage";
 import { useState } from "react";
 
 function App() {
-  const [players, setPlayers] = useState([]);
-
+  const [refreshPlayers, setRefreshPlayers] = useState(false);
   return (
     <div>
-      <NavBar players={players} setPlayers={setPlayers} />
-      <MainPage players={players} setPlayers={setPlayers} />
+      <NavBar setRefreshPlayers={setRefreshPlayers} />
+      <MainPage
+        refreshPlayers={refreshPlayers}
+        setRefreshPlayers={setRefreshPlayers}
+      />
     </div>
   );
 }
