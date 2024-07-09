@@ -1,6 +1,4 @@
-const fs = require("fs");
 const puppeteer = require("puppeteer");
-const mongoose = require("mongoose");
 const Euro = require("./euroPlayerModel");
 
 const url = "https://fbref.com/en/comps/676/stats/UEFA-Euro-Stats"; // turns out u can use any fbref standard site urls here
@@ -74,7 +72,7 @@ exports.refreshEuroData = async (req, res) => {
 
 exports.getEuroData = async (req, res) => {
   try {
-    const data = await Euro.find();
+    const data = await Euro.find().sort({ team: 1 }).sort({ name: 1 });
     res.status(200).json({
       status: "success",
       data,

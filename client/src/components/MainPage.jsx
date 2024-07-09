@@ -4,11 +4,15 @@ import AddPlayerCard from "./AddPlayerCard";
 import AddPlayerMenu from "./AddPlayerMenu";
 import Spinner from "./Spinner";
 
-function MainPage({ refreshPlayers, setRefreshPlayers }) {
+function MainPage({
+  refreshPlayers,
+  setRefreshPlayers,
+  setIsLoading,
+  isLoading,
+}) {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
   const [players, setPlayers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   // get players
   useEffect(() => {
