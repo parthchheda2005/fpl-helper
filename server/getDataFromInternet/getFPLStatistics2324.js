@@ -14,7 +14,7 @@ const teamAcronymNameReference = {
   BUR: "Burnley",
   CRY: "Crystal Palace",
   FUL: "Fulham",
-  LUT: "Luton",
+  LUT: "Luton Town",
   MUN: "Manchester Utd",
   NEW: "Newcastle Utd",
   NFO: "Nott'ham Forest",
@@ -22,6 +22,13 @@ const teamAcronymNameReference = {
   WHU: "West Ham",
   WOL: "Wolves",
 };
+
+function removeSpecialCharacters(str) {
+  let normalizedStr = str.normalize("NFD");
+  let cleanedStr = normalizedStr.replace(/[\u0300-\u036f]/g, "");
+  cleanedStr = cleanedStr.replace(/[ð]/g, "d");
+  return cleanedStr;
+}
 
 const getDataFromFPLStatistics = async () => {
   try {
@@ -115,6 +122,9 @@ const getDataFromFPLStatistics = async () => {
     tableData = Array.from(new Set(tableData.map(JSON.stringify))).map(
       JSON.parse
     );
+    tableData = tableData.map((el) => {
+      return { ...el, name: removeSpecialCharacters(el.name) };
+    });
     return tableData;
   } catch (error) {
     console.error("An error occurred:", error);
@@ -129,7 +139,7 @@ const getDataFromFBREF = async () => {
   }); // go to the page
   await page.screenshot({ path: `${__dirname}/screenshot.png` });
   await page.waitForSelector("#all_stats_standard", { timeout: 30000 }); // wait for the head div to load
-  const playerData = await page.$eval("#all_stats_standard", (element) => {
+  let playerData = await page.$eval("#all_stats_standard", (element) => {
     // select head div with a callback function to return something
     const innerDiv = element.querySelector("#div_stats_standard"); // select innerdiv
     if (innerDiv) {
@@ -147,17 +157,17 @@ const getDataFromFBREF = async () => {
             return {
               name: cells.at(0),
               team: cells.at(3),
-              matchesPlayed: cells.at(6) * 1, // 6
-              matchesStarted: cells.at(7) * 1, // 7
-              minPlayed: cells.at(8).replace(/,/g, "") * 1, // 8
-              goals: cells.at(10) * 1, // 10
-              assists: cells.at(11) * 1, // 11
-              ga: cells.at(12) * 1, // 12
-              penalties: cells.at(14) * 1, // 14
-              gaPer90: cells.at(27) * 1, // 27
-              xGPer90: cells.at(30) * 1, // 30
-              xGAPer90: cells.at(32) * 1, // 32
-              npXGAPer90: cells.at(34) * 1, // 34
+              matchesPlayed: cells.at(6) * 1,
+              matchesStarted: cells.at(7) * 1,
+              minPlayed: cells.at(8).replace(/,/g, "") * 1,
+              goals: cells.at(10) * 1,
+              assists: cells.at(11) * 1,
+              ga: cells.at(12) * 1,
+              penalties: cells.at(14) * 1,
+              gaPer90: cells.at(27) * 1,
+              xGPer90: cells.at(30) * 1,
+              xGAPer90: cells.at(32) * 1,
+              npXGAPer90: cells.at(34) * 1,
             }; // make the object
           });
           return rows;
@@ -173,6 +183,9 @@ const getDataFromFBREF = async () => {
   });
   await page.close();
   await browser.close();
+  playerData = playerData.map((el) => {
+    return { ...el, name: removeSpecialCharacters(el.name) };
+  });
   return playerData;
 };
 
@@ -192,6 +205,7 @@ potential ideas to solve merging 2 datasets:
 exports.mergeFBREFandFPLData = async () => {
   const dataFBREF = await getDataFromFBREF();
   const dataFPL = await getDataFromFPLStatistics();
+
   let mergedData = [];
   for (let i = 0; i < dataFPL.length; i++) {
     let playerFPL = { ...dataFPL.at(i) };
@@ -203,9 +217,10 @@ exports.mergeFBREFandFPLData = async () => {
       playerName = "Fofana";
     } else if (playerName === "Y. Chermiti") {
       playerName = "Chermiti";
-    } else if (!playerName.includes(" ") || !playerName.includes(".")) {
+    } else if (!playerName.includes(" ") && !playerName.includes(".")) {
       playerName = playerName;
     } else {
+      // rn this dont work luton players
       if (playerName.includes(" ")) {
         playerName = playerName.split(" ").at(0);
       }

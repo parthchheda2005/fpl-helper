@@ -16,3 +16,18 @@ exports.refreshPLData = async (req, res) => {
     console.error(e);
   }
 };
+
+exports.getPLData = async (req, res) => {
+  try {
+    const data = await Pl.find()
+      .sort({ season: -1 })
+      .sort({ team: 1 })
+      .sort({ name: 1 });
+    res.status(200).json({
+      status: "success",
+      data,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};

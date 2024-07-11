@@ -5,7 +5,7 @@ const {
   refreshEuroData,
   getEuroData,
 } = require("./controllers/euroController");
-const { refreshPLData } = require("./controllers/plController");
+const { refreshPLData, getPLData } = require("./controllers/plController");
 
 const app = express();
 app.use(express.json());
@@ -26,6 +26,8 @@ app.get("/players/v1/euros/refresh", refreshEuroData);
 app.get("/players/v1/euros/get", getEuroData);
 
 app.get("/players/v1/pl/refresh", refreshPLData);
+
+app.get("/players/v1/pl/get", getPLData);
 
 const port = 8000;
 app.listen(port, () => {
