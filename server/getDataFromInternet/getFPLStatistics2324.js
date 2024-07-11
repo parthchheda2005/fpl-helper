@@ -189,7 +189,7 @@ potential ideas to solve merging 2 datasets:
 
  */
 
-const mergeFBREFandFPLData = async () => {
+exports.mergeFBREFandFPLData = async () => {
   const dataFBREF = await getDataFromFBREF();
   const dataFPL = await getDataFromFPLStatistics();
   let mergedData = [];
@@ -218,6 +218,7 @@ const mergeFBREFandFPLData = async () => {
     );
     mergedData.push({
       name: playerFPL.name,
+      season: "23-24",
       team: playerTeam,
       position: playerFPL.position,
       ownership: playerFPL.ownership,
@@ -229,6 +230,7 @@ const mergeFBREFandFPLData = async () => {
       goals: playerFBREF?.goals || 0,
       assists: playerFBREF?.assists || 0,
       ga: playerFBREF?.ga || 0,
+      penalties: playerFBREF?.penalties || 0,
       gaPer90: playerFBREF?.gaPer90 || 0,
       xGPer90: playerFBREF?.xGPer90 || 0,
       xGAPer90: playerFBREF?.xGAPer90 || 0,
@@ -238,10 +240,3 @@ const mergeFBREFandFPLData = async () => {
   }
   return mergedData;
 };
-
-const logData = async () => {
-  let data = await mergeFBREFandFPLData();
-  console.log(data);
-};
-
-logData();

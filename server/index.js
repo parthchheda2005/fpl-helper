@@ -1,8 +1,11 @@
 const express = require("express");
 const cors = require("cors");
-const fs = require("fs");
 const mongoose = require("mongoose");
-const { refreshEuroData, getEuroData } = require("./getPlayersEuros24");
+const {
+  refreshEuroData,
+  getEuroData,
+} = require("./controllers/euroController");
+const { refreshPLData } = require("./controllers/plController");
 
 const app = express();
 app.use(express.json());
@@ -21,6 +24,8 @@ mongoose
 app.get("/players/v1/euros/refresh", refreshEuroData);
 
 app.get("/players/v1/euros/get", getEuroData);
+
+app.get("/players/v1/pl/refresh", refreshPLData);
 
 const port = 8000;
 app.listen(port, () => {

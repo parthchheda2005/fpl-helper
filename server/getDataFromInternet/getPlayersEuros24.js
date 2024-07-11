@@ -1,9 +1,8 @@
 const puppeteer = require("puppeteer");
-const Euro = require("./euroPlayerModel");
 
 const url = "https://fbref.com/en/comps/676/stats/UEFA-Euro-Stats"; // turns out u can use any fbref standard site urls here
 
-const getData = async () => {
+exports.getEuroData = async () => {
   const browser = await puppeteer.launch(); // start puppeteer browser
   const page = await browser.newPage(); // start puppeteer page
   await page.goto(url, { waitUntil: "networkidle2" }); // go to the page
@@ -54,30 +53,4 @@ const getData = async () => {
   await page.close();
   await browser.close();
   return playerData;
-};
-
-exports.refreshEuroData = async (req, res) => {
-  try {
-    const data = await getData();
-    await Euro.deleteMany({ goals: { $gte: 0 } });
-    await Promise.all(data.map((player) => Euro.create(player)));
-    res.status(201).json({
-      status: "success",
-      data,
-    });
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-exports.getEuroData = async (req, res) => {
-  try {
-    const data = await Euro.find().sort({ team: 1 }).sort({ name: 1 });
-    res.status(200).json({
-      status: "success",
-      data,
-    });
-  } catch (e) {
-    console.error(e);
-  }
 };
