@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function AddPlayerMenu({
   players,
@@ -6,7 +6,10 @@ function AddPlayerMenu({
   setSelectedPlayers,
   selectedPlayers,
 }) {
-  const teams = [...new Set(players.map((el) => el.team))];
+  const seasons = [...new Set(players.map((el) => el.season))];
+  const positions = ["GKP", "DEF", "MID", "FWD"];
+  const [teams, setTeams] = useState([]);
+
   const [invalidInput, setInvalidInput] = useState(false);
 
   const [season, setSeason] = useState("Season");
@@ -65,7 +68,12 @@ function AddPlayerMenu({
 
   function addPlayerToSelectedPlayers(e) {
     e.preventDefault();
-    if (currTeam === "Team" || player === "Player") {
+    if (
+      player === "Player" ||
+      season === "Season" ||
+      currTeam === "Team" ||
+      position === "Position"
+    ) {
       setInvalidInput(true);
       return;
     } else {
@@ -73,7 +81,7 @@ function AddPlayerMenu({
     }
 
     let playerToAdd = players.find(
-      (el) => el.team === currTeam && el.name === player
+      (el) => el.season === season && el.name === player
     );
     playerToAdd = {
       ...playerToAdd,
@@ -106,6 +114,51 @@ function AddPlayerMenu({
         </h1>
         <form onSubmit={(e) => addPlayerToSelectedPlayers(e)}>
           <div className="my-8 flex justify-between text-xl">
+            <h1>Season: </h1>{" "}
+            <select
+              name="season"
+              className="text-neutral-700"
+              value={season}
+              onChange={(e) => {
+                setSeason(e.target.value);
+                setTeams(
+                  [
+                    ...new Set(
+                      players
+                        .filter((el) => el.season === e.target.value)
+                        .map((el) => el.team)
+                    ),
+                  ] || []
+                );
+              }}
+            >
+              <option value="Season">Season</option>
+              {seasons.map((el) => (
+                <option key={el} value={el}>
+                  {el}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="my-8 flex justify-between text-xl">
+            <h1>Position: </h1>{" "}
+            <select
+              name="position"
+              className="text-neutral-700"
+              value={position}
+              onChange={(e) => {
+                setPosition(e.target.value);
+              }}
+            >
+              <option value="Position">Position</option>
+              {positions.map((el) => (
+                <option key={el} value={el}>
+                  {el}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="my-8 flex justify-between text-xl">
             <h1>Team: </h1>{" "}
             <select
               name="team"
@@ -113,10 +166,6 @@ function AddPlayerMenu({
               value={currTeam}
               onChange={(e) => {
                 setCurrTeam(e.target.value);
-                const firstPlayer = players.find(
-                  (el) => el.team === e.target.value
-                );
-                setPlayer(firstPlayer ? firstPlayer.name : "Player");
               }}
             >
               <option value="Team">Team</option>
@@ -127,7 +176,7 @@ function AddPlayerMenu({
               ))}
             </select>
           </div>
-          <div className="my-10 flex justify-between text-xl">
+          <div className="my-8 flex justify-between text-xl">
             <h1>Player: </h1>{" "}
             <select
               name="player"
@@ -139,7 +188,12 @@ function AddPlayerMenu({
             >
               <option value="Player">Player</option>
               {players
-                .filter((el) => el.team === currTeam)
+                .filter(
+                  (el) =>
+                    el.team === currTeam &&
+                    el.season === season &&
+                    el.position === position
+                )
                 .map((el) => (
                   <option key={el.name} value={el.name}>
                     {el.name}

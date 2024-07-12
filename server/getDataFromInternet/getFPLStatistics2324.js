@@ -224,7 +224,6 @@ exports.mergeFBREFandFPLData = async () => {
     } else if (!playerName.includes(" ") && !playerName.includes(".")) {
       playerName = playerName;
     } else {
-      // rn this dont work luton players
       if (playerName.includes(" ")) {
         playerName = playerName.split(" ").at(0);
       }
