@@ -35,6 +35,10 @@ const plSchema = new mongoose.Schema({
     type: Number,
     required: [true, "A player must have a value for price"],
   },
+  form: {
+    type: Number,
+    required: [true, "A player must have a value for form"],
+  },
   totalPoints: {
     type: Number,
     required: [true, "A player must have a value for their total points"],

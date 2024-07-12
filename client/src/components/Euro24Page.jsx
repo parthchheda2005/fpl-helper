@@ -4,7 +4,7 @@ import AddPlayerCard from "./AddPlayerCard";
 import AddPlayerMenu from "./AddPlayerMenu";
 import Spinner from "./Spinner";
 
-function MainPage({
+function Euro24Page({
   refreshPlayers,
   setRefreshPlayers,
   setIsLoading,
@@ -98,4 +98,4 @@ function MainPage({
   );
 }
 
-export default MainPage;
+export default Euro24Page;

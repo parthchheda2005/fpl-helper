@@ -71,6 +71,7 @@ const getDataFromFPLStatistics = async () => {
             nameTeamPosition: dataArray.at(1),
             price: dataArray.at(2),
             ownership: dataArray.at(3),
+            form: dataArray.at(4),
             totalPoints: dataArray.at(5),
           };
         });
@@ -116,6 +117,7 @@ const getDataFromFPLStatistics = async () => {
         position,
         ownership: newOwnership * 1,
         price: el.price * 1,
+        form: el.form * 1,
         totalPoints: el.totalPoints * 1,
       };
     });
@@ -213,6 +215,8 @@ exports.mergeFBREFandFPLData = async () => {
     let playerName = playerFPL.name;
     if (playerName.includes("-")) {
       playerName = playerName.split("-").at(1);
+    } else if (playerName === "Rodrigo") {
+      playerName = "Rodri";
     } else if (playerName === "D.D.Fofana") {
       playerName = "Fofana";
     } else if (playerName === "Y. Chermiti") {
@@ -238,6 +242,7 @@ exports.mergeFBREFandFPLData = async () => {
       position: playerFPL.position,
       ownership: playerFPL.ownership,
       price: playerFPL.price,
+      form: playerFPL.form,
       totalPoints: playerFPL.totalPoints,
       matchesPlayed: playerFBREF?.matchesPlayed || 0,
       matchesStarted: playerFBREF?.matchesStarted || 0,
