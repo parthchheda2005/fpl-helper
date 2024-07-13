@@ -1,4 +1,4 @@
-import StatComponent from "./StatComponent";
+import StatComponent from "../StatComponent";
 
 function CardComponent({ player, selectedPlayers, setSelectedPlayers }) {
   const {

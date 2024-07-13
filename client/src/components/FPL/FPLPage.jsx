@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import CardComponentPL from "./CardComponentPL";
-import AddPlayerCard from "./AddPlayerCard";
+import AddPlayerCardPL from "./AddPlayerCardPL";
 import AddPlayerMenuPL from "./AddPlayerMenuPL";
-import Spinner from "./Spinner";
+import Spinner from "../Spinner";
 
 function FPLPage({
   refreshPlayers,
@@ -50,12 +50,6 @@ function FPLPage({
       setIsLoading(false);
     };
 
-    // if (refreshPlayers) {
-    //   refreshingPlayers();
-    // } else {
-    //   gettingPlayers();
-    // }
-
     gettingPlayers();
 
     return () => {
@@ -89,7 +83,7 @@ function FPLPage({
               selectedPlayers={selectedPlayers}
             />
           ) : (
-            <AddPlayerCard setAddingNewPlayer={setAddingNewPlayer} />
+            <AddPlayerCardPL setAddingNewPlayer={setAddingNewPlayer} />
           )}
         </>
       )}

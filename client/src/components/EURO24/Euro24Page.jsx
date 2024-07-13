@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import CardComponent from "./CardComponent";
 import AddPlayerCard from "./AddPlayerCard";
 import AddPlayerMenu from "./AddPlayerMenu";
-import Spinner from "./Spinner";
+import Spinner from "../Spinner";
 
 function Euro24Page({
   refreshPlayers,
