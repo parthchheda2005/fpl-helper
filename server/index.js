@@ -6,6 +6,7 @@ const {
   getEuroData,
 } = require("./controllers/euroController");
 const { refreshPLData, getPLData } = require("./controllers/plController");
+const { getFPLSquad } = require("./getDataFromInternet/getFPLSquad");
 
 const app = express();
 app.use(express.json());
@@ -28,6 +29,8 @@ app.get("/players/v1/euros/get", getEuroData);
 app.get("/players/v1/pl/refresh", refreshPLData);
 
 app.get("/players/v1/pl/get", getPLData);
+
+app.get("/squad/v1/get/:id/:gw", getFPLSquad);
 
 const port = 8000;
 app.listen(port, () => {
