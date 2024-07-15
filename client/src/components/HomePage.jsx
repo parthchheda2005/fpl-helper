@@ -22,6 +22,12 @@ function HomePage() {
         >
           FPL Data
         </button>
+        <button
+          onClick={() => navigate("/fpl-squad")}
+          className="bg-stone-100 rounded-xl mx-6 px-4 py-3 w-[200px] text-lg hover:bg-amber-700 hover:text-stone-100 transition duration-300 ease-out"
+        >
+          FPL Squad Planning
+        </button>
       </div>
     </div>
   );

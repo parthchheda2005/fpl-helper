@@ -4,13 +4,7 @@ import AddPlayerCardPL from "./AddPlayerCardPL";
 import AddPlayerMenuPL from "./AddPlayerMenuPL";
 import Spinner from "../Spinner";
 
-function FPLPage({
-  refreshPlayers,
-  setRefreshPlayers,
-  setIsLoading,
-  isLoading,
-  enabledStatistics,
-}) {
+function FPLPage({ setIsLoading, isLoading, enabledStatistics }) {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
   const [players, setPlayers] = useState([]);
@@ -19,22 +13,6 @@ function FPLPage({
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-
-    const refreshingPlayers = async () => {
-      setIsLoading(true);
-      setSelectedPlayers([]);
-      try {
-        const res = await fetch("http://127.0.0.1:8000/players/v1/pl/refresh", {
-          signal: signal,
-        });
-        const data = await res.json();
-        setPlayers(data.data);
-        setRefreshPlayers(false);
-      } catch (error) {
-        console.log("failed to fetch");
-      }
-      setIsLoading(false);
-    };
 
     const gettingPlayers = async () => {
       setIsLoading(true);
@@ -56,7 +34,7 @@ function FPLPage({
     return () => {
       controller.abort();
     };
-  }, [refreshPlayers]);
+  }, []);
 
   return (
     <div

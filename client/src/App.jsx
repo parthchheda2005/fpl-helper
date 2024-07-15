@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Euro24Page from "./components/EURO24/Euro24Page";
 import FPLPage from "./components/FPL/FPLPage";
 import Settings from "./components/Settings";
+import ViewFPLSquad from "./components/fplSquad/ViewFPLSquad";
 
 function App() {
   const [refreshPlayers, setRefreshPlayers] = useState(false);
@@ -65,6 +66,7 @@ function App() {
             />
           }
         />
+        <Route path="fpl-squad" element={<ViewFPLSquad />} />
         <Route
           path="/settings"
           element={
