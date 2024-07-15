@@ -9,6 +9,7 @@ function FPLPage({
   setRefreshPlayers,
   setIsLoading,
   isLoading,
+  enabledStatistics,
 }) {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
@@ -69,7 +70,8 @@ function FPLPage({
         <>
           {selectedPlayers.map((el) => (
             <CardComponentPL
-              key={el.id} // Assuming each player object has a unique id
+              enabledStatistics={enabledStatistics}
+              key={el.id}
               player={el}
               selectedPlayers={selectedPlayers}
               setSelectedPlayers={setSelectedPlayers}

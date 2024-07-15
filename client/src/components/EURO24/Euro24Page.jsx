@@ -9,6 +9,7 @@ function Euro24Page({
   setRefreshPlayers,
   setIsLoading,
   isLoading,
+  enabledStatistics,
 }) {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
@@ -76,7 +77,8 @@ function Euro24Page({
         <>
           {selectedPlayers.map((el) => (
             <CardComponent
-              key={el.id} // Assuming each player object has a unique id
+              enabledStatistics={enabledStatistics}
+              key={el.id}
               player={el}
               selectedPlayers={selectedPlayers}
               setSelectedPlayers={setSelectedPlayers}

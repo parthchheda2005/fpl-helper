@@ -1,6 +1,11 @@
 import StatComponent from "../StatComponent";
 
-function CardComponent({ player, selectedPlayers, setSelectedPlayers }) {
+function CardComponent({
+  player,
+  selectedPlayers,
+  setSelectedPlayers,
+  enabledStatistics,
+}) {
   const {
     name,
     team,
@@ -99,62 +104,130 @@ function CardComponent({ player, selectedPlayers, setSelectedPlayers }) {
         </button>
       </div>
       <div className="flex-1 overflow-y-scroll px-6 py-4">
-        <StatComponent type="Team" data={team} />
-        <StatComponent
-          type="Matches Played"
-          data={matchesPlayed}
-          highlight={statsHighlightStatus.matchesPlayed}
-        />
-        <StatComponent
-          type="starts"
-          data={matchesStarted}
-          highlight={statsHighlightStatus.matchesStarted}
-        />
-        <StatComponent
-          type="minutes played"
-          data={minPlayed}
-          highlight={statsHighlightStatus.minPlayed}
-        />
-        <StatComponent
-          type="Goals"
-          data={goals}
-          highlight={statsHighlightStatus.goals}
-        />
-        <StatComponent
-          type="Assists"
-          data={assists}
-          highlight={statsHighlightStatus.assists}
-        />
-        <StatComponent
-          type="penalties"
-          data={penalties}
-          highlight={statsHighlightStatus.penalties}
-        />
-        <StatComponent
-          type="Goals + Assists"
-          data={ga}
-          highlight={statsHighlightStatus.ga}
-        />
-        <StatComponent
-          type="Goals + Assists per 90"
-          data={gaPer90}
-          highlight={statsHighlightStatus.gaPer90}
-        />
-        <StatComponent
-          type="xG per 90"
-          data={xGPer90}
-          highlight={statsHighlightStatus.xGPer90}
-        />
-        <StatComponent
-          type="xG + xA per 90"
-          data={xGAPer90}
-          highlight={statsHighlightStatus.xGAPer90}
-        />
-        <StatComponent
-          type="Non-Penalty xG + xA per 90"
-          data={npXGAPer90}
-          highlight={statsHighlightStatus.npXGAPer90}
-        />
+        {enabledStatistics.includes("team") && (
+          <StatComponent type="Team" data={team} />
+        )}
+        {enabledStatistics.includes("matchesPlayed") && (
+          <StatComponent
+            type="Matches Played"
+            data={matchesPlayed}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.matchesPlayed
+                : ""
+            }
+          />
+        )}
+        {enabledStatistics.includes("matchesStarted") && (
+          <StatComponent
+            type="starts"
+            data={matchesStarted}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.matchesStarted
+                : ""
+            }
+          />
+        )}
+        {enabledStatistics.includes("minPlayed") && (
+          <StatComponent
+            type="minutes played"
+            data={minPlayed}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.minPlayed
+                : ""
+            }
+          />
+        )}
+        {enabledStatistics.includes("goals") && (
+          <StatComponent
+            type="Goals"
+            data={goals}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.goals
+                : ""
+            }
+          />
+        )}
+        {enabledStatistics.includes("assists") && (
+          <StatComponent
+            type="Assists"
+            data={assists}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.assists
+                : ""
+            }
+          />
+        )}
+        {enabledStatistics.includes("penalties") && (
+          <StatComponent
+            type="penalties"
+            data={penalties}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.penalties
+                : ""
+            }
+          />
+        )}
+        {enabledStatistics.includes("ga") && (
+          <StatComponent
+            type="Goals + Assists"
+            data={ga}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.ga
+                : ""
+            }
+          />
+        )}
+        {enabledStatistics.includes("gaPer90") && (
+          <StatComponent
+            type="Goals + Assists per 90"
+            data={gaPer90}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.gaPer90
+                : ""
+            }
+          />
+        )}
+        {enabledStatistics.includes("xGPer90") && (
+          <StatComponent
+            type="xG per 90"
+            data={xGPer90}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.xGPer90
+                : ""
+            }
+          />
+        )}
+        {enabledStatistics.includes("xGAPer90") && (
+          <StatComponent
+            type="xG + xA per 90"
+            data={xGAPer90}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.xGAPer90
+                : ""
+            }
+          />
+        )}
+        {enabledStatistics.includes("npXGAPer90") && (
+          <StatComponent
+            type="Non-Penalty xG + xA per 90"
+            data={npXGAPer90}
+            highlight={
+              enabledStatistics.includes("comparisonHighlight")
+                ? statsHighlightStatus.npXGAPer90
+                : ""
+            }
+          />
+        )}
       </div>
     </div>
   );

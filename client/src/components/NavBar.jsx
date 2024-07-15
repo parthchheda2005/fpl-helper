@@ -23,19 +23,10 @@ function NavBar({ setRefreshPlayers, isLoading }) {
             FPL Data
           </p>
         </li>
-        <li
-          className={`hover:rounded-xl bg-sky-700 bg-opacity-60 px-3 py-3 ${
-            !isLoading &&
-            "hover:bg-sky-100 transition-all duration-500 hover:px-5 hover:py-2 hover:text-neutral-800"
-          }`}
-        >
-          <button
-            onClick={() => setRefreshPlayers(true)}
-            disabled={isLoading}
-            className={` ${isLoading && "cursor-not-allowed"}`}
-          >
-            Update data
-          </button>
+        <li className="hover:rounded-xl bg-sky-700 bg-opacity-60 px-3 py-3 hover:bg-sky-100 transition-all duration-500 hover:px-5 hover:py-2 hover:text-neutral-800">
+          <p onClick={() => navigate("/settings")} className="cursor-pointer">
+            Settings
+          </p>
         </li>
       </ul>
     </div>
