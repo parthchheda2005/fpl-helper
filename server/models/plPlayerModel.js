@@ -96,6 +96,18 @@ const plSchema = new mongoose.Schema({
       "A player must have a non-penalty expected value of goals and assists per 90",
     ],
   },
+  goalsAllowed: {
+    type: Number,
+    required: [true, "A player must have a goalsAllowed value"],
+  },
+  goalsAllowedPer90: {
+    type: Number,
+    required: [true, "A player must have a goalsAllowedPer90 value"],
+  },
+  xGAllowedPer90: {
+    type: Number,
+    required: [true, "A player must have a xGAllowedPer90 value"],
+  },
 });
 
 const Pl = mongoose.model("pl", plSchema);

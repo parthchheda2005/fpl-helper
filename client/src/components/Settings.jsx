@@ -12,7 +12,7 @@ function Settings({ enabledStatistics, setEnabledStatistics }) {
   }
 
   return (
-    <div className="h-screen min-w-max pt-[7vh] bg-neutral-800 text-stone-100 flex justify-center items-center text-3xl flex-col">
+    <div className="h-screen min-w-max pt-[7vh] bg-neutral-800 text-stone-100 flex justify-center items-center text-3xl flex-col mt-5">
       <h1>Enable/Disable Statistics: </h1>
       <div className="m-5 overflow-scroll">
         <h2 className="text-xl">General Statistics:</h2>
@@ -190,6 +190,33 @@ function Settings({ enabledStatistics, setEnabledStatistics }) {
               onChange={(e) => handleChange(e)}
             />
             <span className="mx-3">Total Points</span>
+          </li>
+          <li>
+            <input
+              type="checkbox"
+              value="goalsAllowed"
+              checked={enabledStatistics.includes("goalsAllowed")}
+              onChange={(e) => handleChange(e)}
+            />
+            <span className="mx-3">Goals Allowed</span>
+          </li>
+          <li>
+            <input
+              type="checkbox"
+              value="goalsAllowedPer90"
+              checked={enabledStatistics.includes("goalsAllowedPer90")}
+              onChange={(e) => handleChange(e)}
+            />
+            <span className="mx-3">Goals Allowed Per 90</span>
+          </li>
+          <li>
+            <input
+              type="checkbox"
+              value="xGAllowedPer90"
+              checked={enabledStatistics.includes("xGAllowedPer90")}
+              onChange={(e) => handleChange(e)}
+            />
+            <span className="mx-3">xG Allowed Per 90</span>
           </li>
         </ul>
       </div>

@@ -191,22 +191,71 @@ const getDataFromFBREF = async () => {
   return playerData;
 };
 
-/* 
-potential ideas to solve merging 2 datasets:
- split name strings in fbref by ' ' and select 0 
- split the result by '.' and select 1
- potential issue cases:
- - Bobby De Cordoba-Reid's name is tricky is stored as Reid on FBRef
- - Baker-Boaitey is stored as Boaitey on FBREF
- if '-' in string take the second name?
- - D.D.Fofana the THIRD name is what is needed
- - Y. Chermiti we actually want the second name
+const getTeamDefensiveStats = async () => {
+  const browser = await puppeteer.launch(); // start puppeteer browser
+  const page = await browser.newPage(); // start puppeteer page
+  await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
+    waitUntil: "networkidle2",
+  });
 
- */
+  await page.waitForSelector(".filter.switcher");
+
+  const selector = 'a[data-show=".assoc_stats_squads_standard_against"]';
+  const element = await page.$(selector);
+  if (element) {
+    await element.click();
+    console.log("Element clicked successfully");
+  } else {
+    console.log("Element not found");
+    await browser.close();
+    return;
+  }
+
+  await page.waitForSelector("#div_stats_squads_standard_against");
+
+  const div = await page.$("#div_stats_squads_standard_against");
+  let array = [];
+  if (div) {
+    const table = await div.$("table");
+    if (table) {
+      const tbody = await table.$("tbody");
+      if (tbody) {
+        const rows = await tbody.$$("tr");
+        for (const row of rows) {
+          const cells = await row.$$("th, td");
+          const rowArray = [];
+          for (const cell of cells) {
+            const cellText = await page.evaluate(
+              (cell) => cell.innerText,
+              cell
+            );
+            rowArray.push(cellText);
+          }
+          array.push({
+            team: rowArray.at(0).split("vs ").at(1),
+            goalsAllowed: rowArray.at(8) * 1,
+            goalsAllowedPer90: rowArray.at(22) * 1,
+            xGAllowedPer90: rowArray.at(27) * 1,
+          });
+        }
+      } else {
+        console.log("tbody not found");
+      }
+    } else {
+      console.log("table not found");
+    }
+  } else {
+    console.log("div not found");
+  }
+  await page.close();
+  await browser.close();
+  return array;
+};
 
 exports.mergeFBREFandFPLData = async () => {
   const dataFBREF = await getDataFromFBREF();
   const dataFPL = await getDataFromFPLStatistics();
+  const dataDefensive = await getTeamDefensiveStats();
 
   let mergedData = [];
   for (let i = 0; i < dataFPL.length; i++) {
@@ -234,6 +283,9 @@ exports.mergeFBREFandFPLData = async () => {
     let playerFBREF = dataFBREF.find(
       (el) => el.name.includes(playerName) && el.team === playerTeam
     );
+
+    let playerDefensive = dataDefensive.find((el) => el.team === playerTeam);
+
     mergedData.push({
       name: playerFPL.name,
       season: "23-24",
@@ -255,7 +307,11 @@ exports.mergeFBREFandFPLData = async () => {
       xGAPer90: playerFBREF?.xGAPer90 || 0,
       xGAPer90: playerFBREF?.xGAPer90 || 0,
       npXGAPer90: playerFBREF?.npXGAPer90 || 0,
+      goalsAllowed: playerDefensive.goalsAllowed || 0,
+      goalsAllowedPer90: playerDefensive.goalsAllowedPer90 || 0,
+      xGAllowedPer90: playerDefensive.xGAllowedPer90 || 0,
     });
   }
+  console.log(mergedData);
   return mergedData;
 };

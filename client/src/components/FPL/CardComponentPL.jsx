@@ -27,6 +27,9 @@ function CardComponentPL({
     xGAPer90,
     npXGAPer90,
     statsHighlightStatus,
+    goalsAllowed,
+    goalsAllowedPer90,
+    xGAllowedPer90,
   } = player;
 
   function removePlayer(playerToRemove) {
@@ -271,6 +274,18 @@ function CardComponentPL({
                 : ""
             }
           />
+        )}
+        {enabledStatistics.includes("goalsAllowed") && (
+          <StatComponent type="Team Goals Conceded" data={goalsAllowed} />
+        )}
+        {enabledStatistics.includes("goalsAllowedPer90") && (
+          <StatComponent
+            type="Team Goals Conceded Per 90"
+            data={goalsAllowedPer90}
+          />
+        )}
+        {enabledStatistics.includes("xGAllowedPer90") && (
+          <StatComponent type="xG Conceded Per 90" data={xGAllowedPer90} />
         )}
       </div>
     </div>

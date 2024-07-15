@@ -30,6 +30,9 @@ function App() {
     "xGAPer90",
     "npXGAPer90",
     "comparisonHighlight",
+    "goalsAllowed",
+    "goalsAllowedPer90",
+    "xGAllowedPer90",
   ]);
 
   return (
