@@ -79,7 +79,7 @@ function SquadCard({ player, allPlayers, squad }) {
     <>
       <button
         onClick={() => setShowRec((curr) => !curr)}
-        className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between hover:scale-110 hover:font-semibold hover:rounded-3xl transition duration-300"
+        className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between hover:scale-110 hover:font-semibold transition duration-300"
       >
         <div className="text-left">
           {name} <br /> {team}
