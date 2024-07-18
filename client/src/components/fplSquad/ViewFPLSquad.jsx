@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Spinner from "../Spinner";
 import SquadCard from "./SquadCard";
+import FPLTemplate from "./FPLTemplate";
 
 function removeSpecialCharacters(str) {
   let normalizedStr = str.normalize("NFD");
@@ -111,12 +112,16 @@ function ViewFPLSquad() {
         </button>
       </form>
       <div className="mt-5 overflow-scroll">
-        {isLoading ? (
-          <Spinner />
+        {url !== "" ? (
+          isLoading ? (
+            <Spinner />
+          ) : (
+            squad.map((el) => (
+              <SquadCard player={el} allPlayers={players} squad={squad} />
+            ))
+          )
         ) : (
-          squad.map((el) => (
-            <SquadCard player={el} allPlayers={players} squad={squad} />
-          ))
+          <FPLTemplate players={players} />
         )}
       </div>
     </div>
