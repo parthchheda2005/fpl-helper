@@ -1,19 +1,26 @@
 const Pl = require("../models/plPlayerModel");
 const {
   mergeFBREFandFPLData,
-} = require("../getDataFromInternet/getFPLStatistics2324");
+} = require("../getDataFromInternet/getFPLStatistics2425");
 
 exports.refreshPLData = async (req, res) => {
   try {
     const data = await mergeFBREFandFPLData();
-    await Pl.deleteMany({ goals: { $gte: 0 } });
-    await Promise.all(data.map((player) => Pl.create(player)));
+    await Pl.deleteMany({ season: "24-25" });
+    await Promise.all(
+      data.map((player) => {
+        Pl.create(player);
+      })
+    );
     res.status(201).json({
       status: "success",
       data,
     });
   } catch (e) {
-    console.error(e);
+    res.status(400).json({
+      status: "failure",
+      errMessage: e,
+    });
   }
 };
 
@@ -28,6 +35,9 @@ exports.getPLData = async (req, res) => {
       data,
     });
   } catch (e) {
-    console.error(e);
+    res.status(400).json({
+      status: "failure",
+      errMessage: e,
+    });
   }
 };

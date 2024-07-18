@@ -4,7 +4,7 @@ function NavBar({ setRefreshPlayers, isLoading }) {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-sky-800 flex justify-between h-[7vh] text-xl w-screen fixed top-0 px-3 items-center rounded-b-2xl">
+    <div className="bg-sky-600 flex justify-between h-[7vh] text-xl w-screen fixed top-0 px-3 items-center rounded-b-2xl">
       <p
         className="text-3xl font-bold text-stone-900 cursor-pointer"
         onClick={() => navigate("/")}
