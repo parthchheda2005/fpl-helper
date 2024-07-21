@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 const {
   refreshEuroData,
   getEuroData,
@@ -8,12 +9,12 @@ const {
 const { refreshPLData, getPLData } = require("./controllers/plController");
 const { getFPLSquad } = require("./getDataFromInternet/getFPLSquad");
 
+dotenv.config({ path: "./config.env" });
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const uri =
-  "mongodb+srv://parthhchheda:jgp4m0tm4DUaw2ZM@cluster0.ably4db.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.DATABASE_CONN;
 
 mongoose
   .connect(uri, {
