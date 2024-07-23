@@ -35,12 +35,7 @@ const getDataFromFPLStatistics = async () => {
   let browser;
   try {
     browser = await puppeteer.launch({
-      args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote",
-      ],
+      args: ["--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
       executablePath:
         process.env.NODE_ENV === "production"
           ? process.env.PUPPETEER_EXECUTABLE_PATH
@@ -156,12 +151,7 @@ const getDataFromFBREF = async () => {
   let browser;
   try {
     browser = await puppeteer.launch({
-      args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote",
-      ],
+      args: ["--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
       executablePath:
         process.env.NODE_ENV === "production"
           ? process.env.PUPPETEER_EXECUTABLE_PATH
@@ -170,9 +160,9 @@ const getDataFromFBREF = async () => {
     const page = await browser.newPage();
     await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
       waitUntil: "networkidle0",
-      timeout: 60000,
+      timeout: 120000,
     });
-    await page.waitForSelector("#all_stats_standard", { timeout: 30000 });
+    await page.waitForSelector("#all_stats_standard", { timeout: 120000 });
 
     let playerData = await page.$eval("#all_stats_standard", (element) => {
       const innerDiv = element.querySelector("#div_stats_standard");
@@ -230,12 +220,7 @@ const getTeamDefensiveStats = async () => {
   let browser;
   try {
     browser = await puppeteer.launch({
-      args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote",
-      ],
+      args: ["--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
       executablePath:
         process.env.NODE_ENV === "production"
           ? process.env.PUPPETEER_EXECUTABLE_PATH
@@ -244,10 +229,10 @@ const getTeamDefensiveStats = async () => {
     const page = await browser.newPage();
     await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
       waitUntil: "networkidle0",
-      timeout: 60000,
+      timeout: 120000,
     });
 
-    await page.waitForSelector(".filter.switcher");
+    await page.waitForSelector(".filter.switcher", { timeout: 120000 });
 
     const selector = 'a[data-show=".assoc_stats_squads_standard_against"]';
     const element = await page.$(selector);
