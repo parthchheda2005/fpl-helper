@@ -12,15 +12,17 @@ exports.refreshPLData = async (req, res) => {
         Pl.create(player);
       })
     );
-    res.status(201).json({
-      status: "success",
-      data,
-    });
+    console.log("finished updating data");
+
+    // res.status(201).json({
+    //   status: "success",
+    //   data,
+    // });
   } catch (e) {
-    res.status(400).json({
-      status: "failure",
-      errMessage: e.message,
-    });
+    // res.status(400).json({
+    //   status: "failure",
+    //   errMessage: e.message,
+    // });
   }
 };
 

@@ -21,7 +21,7 @@ function FPLPage({ enabledStatistics }) {
       setSelectedPlayers([]);
       try {
         const res = await fetch(
-          "https://fpl-helper-a-o.onrender.com/players/v1/pl/get",
+          "https://fpl-helper-dockerized-backend.onrender.com/players/v1/pl/get",
           {
             signal: signal,
           }

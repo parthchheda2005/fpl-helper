@@ -20,7 +20,7 @@ function Euro24Page({ refreshPlayers, setRefreshPlayers, enabledStatistics }) {
       setSelectedPlayers([]);
       try {
         const res = await fetch(
-          "https://fpl-helper-a-o.onrender.com/players/v1/euros/refresh",
+          "https://fpl-helper-dockerized-backend.onrender.com/players/v1/euros/refresh",
           {
             signal: signal,
           }

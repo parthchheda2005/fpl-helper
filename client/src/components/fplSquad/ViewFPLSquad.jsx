@@ -26,7 +26,7 @@ function ViewFPLSquad() {
       setIsLoading(true);
       try {
         const res = await fetch(
-          "https://fpl-helper-a-o.onrender.com/players/v1/pl/get",
+          "https://fpl-helper-dockerized-backend.onrender.com/players/v1/pl/get",
           {
             signal: signal,
           }
@@ -55,7 +55,7 @@ function ViewFPLSquad() {
       setIsLoading(true);
       try {
         const res = await fetch(
-          `https://fpl-helper-a-o.onrender.com/squad/v1/get/${teamId}/${gw}`,
+          `https://fpl-helper-dockerized-backend.onrender.com/squad/v1/get/${teamId}/${gw}`,
           {
             signal: signal,
           }
