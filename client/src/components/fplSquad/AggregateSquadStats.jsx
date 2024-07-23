@@ -25,20 +25,23 @@ function AggregateSquadStats({ players, stat }) {
     .slice(0, 3);
 
   return (
-    <div className="flex flex-col text-neutral-100 mt-8 max-h-[33rem] overflow-hidden">
+    <div className="flex flex-col text-neutral-100 h-[89vh] overflow-hidden">
       <h1 className="text-2xl mx-10 capitalize">{stat}:</h1>
-      <div className="overflow-y-auto">
+      <div className="overflow-y-auto flex-grow">
         {stat === "Most Owned Squad" && (
           <div>
             {GKTemplate.map((el) => (
-              <button className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between">
+              <button
+                key={el.name}
+                className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+              >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
                   <br /> {el.position}
                 </div>
                 <div className="text-right">
                   {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br />{" "}
+                  <br />
                   {`${
                     Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
                   } points per start`}
@@ -46,14 +49,17 @@ function AggregateSquadStats({ players, stat }) {
               </button>
             ))}
             {DEFTemplate.map((el) => (
-              <button className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between">
+              <button
+                key={el.name}
+                className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+              >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
                   <br /> {el.position}
                 </div>
                 <div className="text-right">
                   {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br />{" "}
+                  <br />
                   {`${
                     Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
                   } points per start`}
@@ -61,14 +67,17 @@ function AggregateSquadStats({ players, stat }) {
               </button>
             ))}
             {MIDTemplate.map((el) => (
-              <button className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between">
+              <button
+                key={el.name}
+                className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+              >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
                   <br /> {el.position}
                 </div>
                 <div className="text-right">
                   {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br />{" "}
+                  <br />
                   {`${
                     Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
                   } points per start`}
@@ -76,14 +85,17 @@ function AggregateSquadStats({ players, stat }) {
               </button>
             ))}
             {FWDTemplate.map((el) => (
-              <button className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between ">
+              <button
+                key={el.name}
+                className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+              >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
                   <br /> {el.position}
                 </div>
                 <div className="text-right">
                   {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br />{" "}
+                  <br />
                   {`${
                     Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
                   } points per start`}
@@ -94,7 +106,10 @@ function AggregateSquadStats({ players, stat }) {
         )}
         {stat === "Best Value (points per £)" &&
           cheapBeasts.map((el) => (
-            <button className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between">
+            <button
+              key={el.name}
+              className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+            >
               <div className="text-left">
                 {el.name} <br /> {el.team}
                 <br /> {`${el.position}`}
@@ -107,7 +122,10 @@ function AggregateSquadStats({ players, stat }) {
           ))}
         {stat === "Hidden Gems" &&
           hiddenGems.map((el) => (
-            <button className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between">
+            <button
+              key={el.name}
+              className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+            >
               <div className="text-left">
                 {el.name} <br /> {el.team}
                 <br /> {el.position}

@@ -98,7 +98,7 @@ function ViewFPLSquad() {
 
   return (
     <div className="h-screen w-screen pt-[7vh] bg-neutral-800 text-stone-100 flex items-center flex-col mt-5">
-      <p className="text-2xl">
+      {/* <p className="text-2xl">
         Go to the Points Tab in the FPL Website and copy the URL:{" "}
       </p>
       <form
@@ -120,10 +120,12 @@ function ViewFPLSquad() {
         >
           View my squad
         </button>
-      </form>
+      </form> */}
       <div className="mt-5">
         {isLoading || players.length === 0 ? (
-          <Spinner />
+          <div className="flex justify-center items-center w-full h-full scale-150">
+            <Spinner />
+          </div>
         ) : url !== "" ? (
           <div className="overflow-scroll">
             {squad.map((el) => (
@@ -136,7 +138,7 @@ function ViewFPLSquad() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-row space-x-4">
+          <div className="flex flex-row space-x-4 h-full">
             <AggregateSquadStats
               players={players}
               stat={"Best Value (points per £)"}
