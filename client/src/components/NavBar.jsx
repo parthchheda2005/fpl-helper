@@ -25,7 +25,7 @@ function NavBar() {
         </li>
         <li className="hover:rounded-xl bg-sky-700 bg-opacity-60 px-3 py-3 hover:bg-sky-100 transition-all duration-500 hover:px-5 hover:py-2 hover:text-neutral-800">
           <p onClick={() => navigate("/fpl-squad")} className="cursor-pointer">
-            FPL Squad Planning
+            FPL Playerbase Data
           </p>
         </li>
         <li className="hover:rounded-xl bg-sky-700 bg-opacity-60 px-3 py-3 hover:bg-sky-100 transition-all duration-500 hover:px-5 hover:py-2 hover:text-neutral-800">
