@@ -25,15 +25,19 @@ function ViewFPLSquad() {
     const gettingPlayers = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch("http://127.0.0.1:8000/players/v1/pl/get", {
-          signal: signal,
-        });
+        const res = await fetch(
+          "https://fpl-helper-a-o.onrender.com/players/v1/pl/get",
+          {
+            signal: signal,
+          }
+        );
         const data = await res.json();
         setPlayers(data.data);
       } catch (error) {
         console.log("failed to fetch");
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     gettingPlayers();
@@ -51,7 +55,7 @@ function ViewFPLSquad() {
       setIsLoading(true);
       try {
         const res = await fetch(
-          `http://127.0.0.1:8000/squad/v1/get/${teamId}/${gw}`,
+          `https://fpl-helper-a-o.onrender.com/squad/v1/get/${teamId}/${gw}`,
           {
             signal: signal,
           }
@@ -70,16 +74,19 @@ function ViewFPLSquad() {
         setSquad(squad);
       } catch (error) {
         console.log("failed to fetch");
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
-    getSquad();
+    if (teamId && gw) {
+      getSquad();
+    }
 
     return () => {
       controller.abort();
     };
-  }, [teamId, gw]);
+  }, [teamId, gw, players]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -115,16 +122,19 @@ function ViewFPLSquad() {
         </button>
       </form>
       <div className="mt-5">
-        {url !== "" ? (
-          isLoading ? (
-            <Spinner />
-          ) : (
-            <div className="overflow-scroll">
-              {squad.map((el) => (
-                <SquadCard player={el} allPlayers={players} squad={squad} />
-              ))}
-            </div>
-          )
+        {isLoading || players.length === 0 ? (
+          <Spinner />
+        ) : url !== "" ? (
+          <div className="overflow-scroll">
+            {squad.map((el) => (
+              <SquadCard
+                key={el.id}
+                player={el}
+                allPlayers={players}
+                squad={squad}
+              />
+            ))}
+          </div>
         ) : (
           <div className="flex flex-row space-x-4">
             <AggregateSquadStats

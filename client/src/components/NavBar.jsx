@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function NavBar({ setRefreshPlayers, isLoading }) {
+function NavBar() {
   const navigate = useNavigate();
 
   return (

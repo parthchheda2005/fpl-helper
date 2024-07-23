@@ -10,7 +10,6 @@ import ViewFPLSquad from "./components/fplSquad/ViewFPLSquad";
 
 function App() {
   const [refreshPlayers, setRefreshPlayers] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [enabledStatistics, setEnabledStatistics] = useState([
     "season",
     "team",
@@ -38,7 +37,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar setRefreshPlayers={setRefreshPlayers} isLoading={isLoading} />
+      <NavBar />
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
@@ -49,22 +48,12 @@ function App() {
               enabledStatistics={enabledStatistics}
               refreshPlayers={refreshPlayers}
               setRefreshPlayers={setRefreshPlayers}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
             />
           }
         />
         <Route
           path="/fpl"
-          element={
-            <FPLPage
-              enabledStatistics={enabledStatistics}
-              refreshPlayers={refreshPlayers}
-              setRefreshPlayers={setRefreshPlayers}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-            />
-          }
+          element={<FPLPage enabledStatistics={enabledStatistics} />}
         />
         <Route path="fpl-squad" element={<ViewFPLSquad />} />
         <Route

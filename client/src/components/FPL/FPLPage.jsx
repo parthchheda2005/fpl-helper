@@ -4,10 +4,11 @@ import AddPlayerCardPL from "./AddPlayerCardPL";
 import AddPlayerMenuPL from "./AddPlayerMenuPL";
 import Spinner from "../Spinner";
 
-function FPLPage({ setIsLoading, isLoading, enabledStatistics }) {
+function FPLPage({ enabledStatistics }) {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
   const [players, setPlayers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // get players
   useEffect(() => {
@@ -16,17 +17,24 @@ function FPLPage({ setIsLoading, isLoading, enabledStatistics }) {
 
     const gettingPlayers = async () => {
       setIsLoading(true);
+      console.log("loading...");
       setSelectedPlayers([]);
       try {
-        const res = await fetch("http://127.0.0.1:8000/players/v1/pl/get", {
-          signal: signal,
-        });
+        const res = await fetch(
+          "https://fpl-helper-a-o.onrender.com/players/v1/pl/get",
+          {
+            signal: signal,
+          }
+        );
         const data = await res.json();
         setPlayers(data.data);
+        console.log("players fetched");
       } catch (error) {
         console.log("failed to fetch");
+      } finally {
+        setIsLoading(false);
+        console.log("finished loading");
       }
-      setIsLoading(false);
     };
 
     gettingPlayers();
@@ -38,12 +46,12 @@ function FPLPage({ setIsLoading, isLoading, enabledStatistics }) {
 
   return (
     <div
-      className={`h-screen min-w-max pt-[7vh] bg-neutral-800 text-stone-100 overflow-y-hidden overflow-x-auto flex ${
-        isLoading && "justify-center items-center"
-      }`}
+      className={`h-screen min-w-max pt-[7vh] bg-neutral-800 text-stone-100 overflow-y-hidden overflow-x-auto flex`}
     >
-      {isLoading ? (
-        <Spinner />
+      {isLoading || players.length === 0 ? (
+        <div className="flex justify-center items-center w-full h-full scale-150">
+          <Spinner />
+        </div>
       ) : (
         <>
           {selectedPlayers.map((el) => (
