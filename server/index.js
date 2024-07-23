@@ -34,7 +34,6 @@ app.get("/players/v1/pl/refresh", refreshPLData);
 app.get("/players/v1/pl/get", getPLData);
 
 app.get("/squad/v1/get/:id/:gw", getFPLSquad);
-
 // update pl data every 24hrs
 // const runScheduledTask = async () => {
 //   try {
@@ -51,4 +50,5 @@ app.get("/squad/v1/get/:id/:gw", getFPLSquad);
 const port = 8000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
+  console.log(process.env.NODE_ENV);
 });

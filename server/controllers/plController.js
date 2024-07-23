@@ -19,7 +19,7 @@ exports.refreshPLData = async (req, res) => {
   } catch (e) {
     res.status(400).json({
       status: "failure",
-      errMessage: e,
+      errMessage: e.message,
     });
   }
 };
