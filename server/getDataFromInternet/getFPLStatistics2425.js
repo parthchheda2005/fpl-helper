@@ -1,5 +1,4 @@
 const puppeteer = require("puppeteer");
-require("dotenv").config();
 
 const teamAcronymNameReference = {
   CHE: "Chelsea",
@@ -12,7 +11,7 @@ const teamAcronymNameReference = {
   BOU: "Bournemouth",
   BRE: "Brentford",
   BHA: "Brighton",
-  LEI: "Leicester City",
+  LEI: "Leicster City",
   CRY: "Crystal Palace",
   FUL: "Fulham",
   IPS: "Ipswich Town",
@@ -32,19 +31,12 @@ function removeSpecialCharacters(str) {
 }
 
 const getDataFromFPLStatistics = async () => {
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      args: ["--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
-      executablePath:
-        process.env.NODE_ENV === "production"
-          ? process.env.PUPPETEER_EXECUTABLE_PATH
-          : puppeteer.executablePath(),
-    });
+    const browser = await puppeteer.launch({ headless: true }); // set headless to false for debugging
     const page = await browser.newPage();
     await page.goto("https://fantasy.premierleague.com/statistics", {
-      waitUntil: "networkidle0",
-      timeout: 120000, // Increased timeout
+      waitUntil: "networkidle2",
+      timeout: 60000,
     });
 
     const cookies = await page.$("#onetrust-accept-btn-handler");
@@ -53,7 +45,7 @@ const getDataFromFPLStatistics = async () => {
     }
 
     await page.waitForSelector(".Layout__Main-sc-eg6k6r-1.eRnmvx", {
-      timeout: 1200000,
+      timeout: 60000,
     });
 
     let tableData = [];
@@ -93,11 +85,12 @@ const getDataFromFPLStatistics = async () => {
           timeout: 60000,
         }
       );
+      await page.screenshot({ path: `screenshot.png` });
 
       const nextButton = await page.$$(
         ".PaginatorButton__Button-sc-xqlaki-0.cmSnxm"
       );
-      if (nextButton && nextButton.length > 0) {
+      if (nextButton) {
         if (nextButton.length === 1 && pageNo > 5) {
           hasNextPage = false;
         } else {
@@ -139,218 +132,187 @@ const getDataFromFPLStatistics = async () => {
     });
     return tableData;
   } catch (error) {
-    console.log(
-      "An error occurred in getDataFromFPLStatistics:",
-      error.message
-    );
-    if (browser) await browser.close();
+    console.error("An error occurred:", error);
   }
 };
 
 const getDataFromFBREF = async () => {
-  let browser;
-  try {
-    browser = await puppeteer.launch({
-      args: ["--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
-      executablePath:
-        process.env.NODE_ENV === "production"
-          ? process.env.PUPPETEER_EXECUTABLE_PATH
-          : puppeteer.executablePath(),
-    });
-    const page = await browser.newPage();
-    await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
-      waitUntil: "networkidle0",
-      timeout: 120000,
-    });
-    await page.waitForSelector("#all_stats_standard", { timeout: 120000 });
-
-    let playerData = await page.$eval("#all_stats_standard", (element) => {
-      const innerDiv = element.querySelector("#div_stats_standard");
-      if (innerDiv) {
-        const table = innerDiv.querySelector("table");
-        if (table) {
-          const tbody = table.querySelector("tbody");
-          if (tbody) {
-            let rows = Array.from(tbody.querySelectorAll("tr"));
-            rows = rows.filter((row) => !row.classList.contains("thead"));
-            rows = rows.map((row) => {
-              const cells = Array.from(row.querySelectorAll("td")).map(
-                (cell) => cell.innerText
-              );
-              return {
-                name: cells.at(0),
-                team: cells.at(3),
-                matchesPlayed: cells.at(6) * 1,
-                matchesStarted: cells.at(7) * 1,
-                minPlayed: cells.at(8).replace(/,/g, "") * 1,
-                goals: cells.at(10) * 1,
-                assists: cells.at(11) * 1,
-                ga: cells.at(12) * 1,
-                penalties: cells.at(14) * 1,
-                gaPer90: cells.at(27) * 1,
-                xGPer90: cells.at(30) * 1,
-                xGAPer90: cells.at(32) * 1,
-                npXGAPer90: cells.at(34) * 1,
-              };
-            });
-            return rows;
-          } else {
-            return "No tbody found";
-          }
+  const browser = await puppeteer.launch(); // start puppeteer browser
+  const page = await browser.newPage(); // start puppeteer page
+  await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
+    waitUntil: "networkidle2",
+  }); // go to the page
+  await page.screenshot({ path: `${__dirname}/screenshot.png` });
+  await page.waitForSelector("#all_stats_standard", { timeout: 30000 }); // wait for the head div to load
+  let playerData = await page.$eval("#all_stats_standard", (element) => {
+    // select head div with a callback function to return something
+    const innerDiv = element.querySelector("#div_stats_standard"); // select innerdiv
+    if (innerDiv) {
+      // select table
+      const table = innerDiv.querySelector("table");
+      if (table) {
+        const tbody = table.querySelector("tbody"); // select tbody in the table
+        if (tbody) {
+          let rows = Array.from(tbody.querySelectorAll("tr")); // select tr in the tbody
+          rows = rows.filter((row) => !row.classList.contains("thead")); // remove all rows with names of the data
+          rows = rows.map((row) => {
+            const cells = Array.from(row.querySelectorAll("td")).map(
+              (cell) => cell.innerText
+            ); // get the inner stats from each row
+            return {
+              name: cells.at(0),
+              team: cells.at(3),
+              matchesPlayed: cells.at(6) * 1,
+              matchesStarted: cells.at(7) * 1,
+              minPlayed: cells.at(8).replace(/,/g, "") * 1,
+              goals: cells.at(10) * 1,
+              assists: cells.at(11) * 1,
+              ga: cells.at(12) * 1,
+              penalties: cells.at(14) * 1,
+              gaPer90: cells.at(27) * 1,
+              xGPer90: cells.at(30) * 1,
+              xGAPer90: cells.at(32) * 1,
+              npXGAPer90: cells.at(34) * 1,
+            }; // make the object
+          });
+          return rows;
         } else {
-          return "No table found";
+          return "No tbody found";
         }
       } else {
-        return "No inner div found";
+        return "No table found";
       }
-    });
-    await page.close();
-    await browser.close();
-    playerData = playerData.map((el) => {
-      return { ...el, name: removeSpecialCharacters(el.name) };
-    });
-    return playerData;
-  } catch (error) {
-    console.log("An error occurred in getDataFromFBREF:", error);
-    if (browser) await browser.close();
-  }
+    } else {
+      return "No inner div found";
+    }
+  });
+  await page.close();
+  await browser.close();
+  playerData = playerData.map((el) => {
+    return { ...el, name: removeSpecialCharacters(el.name) };
+  });
+  return playerData;
 };
 
 const getTeamDefensiveStats = async () => {
-  let browser;
-  try {
-    browser = await puppeteer.launch({
-      args: ["--disable-setuid-sandbox", "--no-sandbox", "--no-zygote"],
-      executablePath:
-        process.env.NODE_ENV === "production"
-          ? process.env.PUPPETEER_EXECUTABLE_PATH
-          : puppeteer.executablePath(),
-    });
-    const page = await browser.newPage();
-    await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
-      waitUntil: "networkidle0",
-      timeout: 120000,
-    });
+  const browser = await puppeteer.launch(); // start puppeteer browser
+  const page = await browser.newPage(); // start puppeteer page
+  await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
+    waitUntil: "networkidle2",
+  });
 
-    await page.waitForSelector(".filter.switcher", { timeout: 120000 });
+  await page.waitForSelector(".filter.switcher");
 
-    const selector = 'a[data-show=".assoc_stats_squads_standard_against"]';
-    const element = await page.$(selector);
-    if (element) {
-      await element.click();
-    } else {
-      console.log("Element not found");
-      await browser.close();
-      return;
-    }
+  const selector = 'a[data-show=".assoc_stats_squads_standard_against"]';
+  const element = await page.$(selector);
+  if (element) {
+    await element.click();
+  } else {
+    console.log("Element not found");
+    await browser.close();
+    return;
+  }
 
-    await page.waitForSelector("#div_stats_squads_standard_against");
+  await page.waitForSelector("#div_stats_squads_standard_against");
 
-    const div = await page.$("#div_stats_squads_standard_against");
-    let array = [];
-    if (div) {
-      const table = await div.$("table");
-      if (table) {
-        const tbody = await table.$("tbody");
-        if (tbody) {
-          const rows = await tbody.$$("tr");
-          for (const row of rows) {
-            const cells = await row.$$("th, td");
-            const rowArray = [];
-            for (const cell of cells) {
-              const cellText = await page.evaluate(
-                (cell) => cell.innerText,
-                cell
-              );
-              rowArray.push(cellText);
-            }
-            array.push({
-              team: rowArray.at(0).split("vs ").at(1),
-              goalsAllowed: rowArray.at(8) * 1,
-              goalsAllowedPer90: rowArray.at(22) * 1,
-              xGAllowedPer90: rowArray.at(27) * 1,
-            });
+  const div = await page.$("#div_stats_squads_standard_against");
+  let array = [];
+  if (div) {
+    const table = await div.$("table");
+    if (table) {
+      const tbody = await table.$("tbody");
+      if (tbody) {
+        const rows = await tbody.$$("tr");
+        for (const row of rows) {
+          const cells = await row.$$("th, td");
+          const rowArray = [];
+          for (const cell of cells) {
+            const cellText = await page.evaluate(
+              (cell) => cell.innerText,
+              cell
+            );
+            rowArray.push(cellText);
           }
-        } else {
-          console.log("tbody not found");
+          array.push({
+            team: rowArray.at(0).split("vs ").at(1),
+            goalsAllowed: rowArray.at(8) * 1,
+            goalsAllowedPer90: rowArray.at(22) * 1,
+            xGAllowedPer90: rowArray.at(27) * 1,
+          });
         }
       } else {
-        console.log("table not found");
+        console.log("tbody not found");
       }
     } else {
-      console.log("div not found");
+      console.log("table not found");
     }
-    await page.close();
-    await browser.close();
-    return array;
-  } catch (error) {
-    console.log("An error occurred in getTeamDefensiveStats:", error.message);
-    if (browser) await browser.close();
+  } else {
+    console.log("div not found");
   }
+  await page.close();
+  await browser.close();
+  return array;
 };
 
 exports.mergeFBREFandFPLData = async () => {
-  try {
-    const dataFPL = await getDataFromFPLStatistics();
-    const dataFBREF = await getDataFromFBREF();
-    const dataDefensive = await getTeamDefensiveStats();
+  const dataFPL = await getDataFromFPLStatistics();
+  const dataFBREF = await getDataFromFBREF();
+  const dataDefensive = await getTeamDefensiveStats();
 
-    let mergedData = [];
-    for (let i = 0; i < dataFPL.length; i++) {
-      let playerFPL = { ...dataFPL.at(i) };
-      let playerTeam = teamAcronymNameReference[playerFPL.team];
-      let playerName = playerFPL.name;
-      if (playerName.includes("-")) {
-        playerName = playerName.split("-").at(1);
-      } else if (playerName === "Rodrigo") {
-        playerName = "Rodri";
-      } else if (playerName === "D.D.Fofana") {
-        playerName = "Fofana";
-      } else if (playerName === "Y. Chermiti") {
-        playerName = "Chermiti";
-      } else if (!playerName.includes(" ") && !playerName.includes(".")) {
-        playerName = playerName;
-      } else {
-        if (playerName.includes(" ")) {
-          playerName = playerName.split(" ").at(0);
-        }
-        if (playerName.includes(".")) {
-          playerName = playerName.split(".").at(1);
-        }
+  let mergedData = [];
+  for (let i = 0; i < dataFPL.length; i++) {
+    let playerFPL = { ...dataFPL.at(i) };
+    let playerTeam = teamAcronymNameReference[playerFPL.team];
+    let playerName = playerFPL.name;
+    if (playerName.includes("-")) {
+      playerName = playerName.split("-").at(1);
+    } else if (playerName === "Rodrigo") {
+      playerName = "Rodri";
+    } else if (playerName === "D.D.Fofana") {
+      playerName = "Fofana";
+    } else if (playerName === "Y. Chermiti") {
+      playerName = "Chermiti";
+    } else if (!playerName.includes(" ") && !playerName.includes(".")) {
+      playerName = playerName;
+    } else {
+      if (playerName.includes(" ")) {
+        playerName = playerName.split(" ").at(0);
       }
-      let playerFBREF = dataFBREF.find(
-        (el) => el.name.includes(playerName) && el.team === playerTeam
-      );
-
-      let playerDefensive = dataDefensive.find((el) => el.team === playerTeam);
-
-      mergedData.push({
-        name: playerFPL.name,
-        season: "24-25",
-        team: playerTeam,
-        position: playerFPL.position,
-        ownership: playerFPL.ownership,
-        price: playerFPL.price,
-        form: playerFPL.form,
-        totalPoints: playerFPL.totalPoints,
-        matchesPlayed: playerFBREF?.matchesPlayed || 0,
-        matchesStarted: playerFBREF?.matchesStarted || 0,
-        minPlayed: playerFBREF?.minPlayed || 0,
-        goals: playerFBREF?.goals || 0,
-        assists: playerFBREF?.assists || 0,
-        ga: playerFBREF?.ga || 0,
-        penalties: playerFBREF?.penalties || 0,
-        gaPer90: playerFBREF?.gaPer90 || 0,
-        xGPer90: playerFBREF?.xGPer90 || 0,
-        xGAPer90: playerFBREF?.xGAPer90 || 0,
-        npXGAPer90: playerFBREF?.npXGAPer90 || 0,
-        goalsAllowed: playerDefensive?.goalsAllowed || 0,
-        goalsAllowedPer90: playerDefensive?.goalsAllowedPer90 || 0,
-        xGAllowedPer90: playerDefensive?.xGAllowedPer90 || 0,
-      });
+      if (playerName.includes(".")) {
+        playerName = playerName.split(".").at(1);
+      }
     }
-    return mergedData;
-  } catch (error) {
-    console.log("An error occurred in mergeFBREFandFPLData:", error.message);
+    let playerFBREF = dataFBREF.find(
+      (el) => el.name.includes(playerName) && el.team === playerTeam
+    );
+
+    let playerDefensive = dataDefensive.find((el) => el.team === playerTeam);
+
+    mergedData.push({
+      name: playerFPL.name,
+      season: "24-25",
+      team: playerTeam,
+      position: playerFPL.position,
+      ownership: playerFPL.ownership,
+      price: playerFPL.price,
+      form: playerFPL.form,
+      totalPoints: playerFPL.totalPoints,
+      matchesPlayed: playerFBREF?.matchesPlayed || 0,
+      matchesStarted: playerFBREF?.matchesStarted || 0,
+      minPlayed: playerFBREF?.minPlayed || 0,
+      goals: playerFBREF?.goals || 0,
+      assists: playerFBREF?.assists || 0,
+      ga: playerFBREF?.ga || 0,
+      penalties: playerFBREF?.penalties || 0,
+      gaPer90: playerFBREF?.gaPer90 || 0,
+      xGPer90: playerFBREF?.xGPer90 || 0,
+      xGAPer90: playerFBREF?.xGAPer90 || 0,
+      xGAPer90: playerFBREF?.xGAPer90 || 0,
+      npXGAPer90: playerFBREF?.npXGAPer90 || 0,
+      goalsAllowed: playerDefensive?.goalsAllowed || 0,
+      goalsAllowedPer90: playerDefensive?.goalsAllowedPer90 || 0,
+      xGAllowedPer90: playerDefensive?.xGAllowedPer90 || 0,
+    });
   }
+  return mergedData;
 };
