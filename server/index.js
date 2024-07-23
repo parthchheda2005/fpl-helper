@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cron = require("node-cron");
+
 const {
   refreshEuroData,
   getEuroData,
@@ -32,6 +34,19 @@ app.get("/players/v1/pl/refresh", refreshPLData);
 app.get("/players/v1/pl/get", getPLData);
 
 app.get("/squad/v1/get/:id/:gw", getFPLSquad);
+
+// update pl data every 24hrs
+const runScheduledTask = async () => {
+  try {
+    const data = await refreshPLData();
+  } catch (error) {
+    console.error("An error occurred while refreshing pl data:", error);
+  }
+};
+cron.schedule("0 0 * * *", () => {
+  runScheduledTask();
+});
+runScheduledTask();
 
 const port = 8000;
 app.listen(port, () => {
