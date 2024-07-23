@@ -108,7 +108,6 @@ const getDataFromFPLStatistics = async () => {
         } else {
           hasNextPage = true;
           await nextButton.at(nextButton.length === 1 ? 0 : 1).click();
-          await page.waitForTimeout(2000); // Adding a short delay
           await page.waitForSelector(
             ".Table-sc-ziussd-1.ElementTable-sc-1v08od9-0.iPaulP.OZmJL",
             { timeout: 60000 }
