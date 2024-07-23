@@ -58,7 +58,7 @@ const getDataFromFPLStatistics = async () => {
     }
 
     await page.waitForSelector(".Layout__Main-sc-eg6k6r-1.eRnmvx", {
-      timeout: 60000,
+      timeout: 1200000,
     });
 
     let tableData = [];
