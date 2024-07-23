@@ -4,7 +4,15 @@ exports.getFPLSquad = async (req, res) => {
   try {
     const teamId = req.params.id;
     const gameweek = req.params.gw;
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+    });
     const page = await browser.newPage();
     await page.goto(
       `https://fantasy.premierleague.com/entry/${teamId}/event/${gameweek}`

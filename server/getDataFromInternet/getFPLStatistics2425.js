@@ -32,7 +32,15 @@ function removeSpecialCharacters(str) {
 
 const getDataFromFPLStatistics = async () => {
   try {
-    const browser = await puppeteer.launch({ headless: true }); // set headless to false for debugging
+    const browser = await puppeteer.launch({
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+    });
     const page = await browser.newPage();
     await page.goto("https://fantasy.premierleague.com/statistics", {
       waitUntil: "networkidle2",
