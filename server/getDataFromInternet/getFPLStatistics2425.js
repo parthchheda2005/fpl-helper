@@ -38,8 +38,8 @@ const getDataFromFPLStatistics = async () => {
       args: [
         "--disable-setuid-sandbox",
         "--no-sandbox",
-        // "--single-process",
-        // "--no-zygote",
+        "--single-process",
+        "--no-zygote",
       ],
       executablePath:
         process.env.NODE_ENV === "production"
@@ -48,8 +48,8 @@ const getDataFromFPLStatistics = async () => {
     });
     const page = await browser.newPage();
     await page.goto("https://fantasy.premierleague.com/statistics", {
-      waitUntil: "networkidle2",
-      timeout: 60000,
+      waitUntil: "networkidle0",
+      timeout: 120000, // Increased timeout
     });
 
     const cookies = await page.$("#onetrust-accept-btn-handler");
@@ -108,6 +108,7 @@ const getDataFromFPLStatistics = async () => {
         } else {
           hasNextPage = true;
           await nextButton.at(nextButton.length === 1 ? 0 : 1).click();
+          await page.waitForTimeout(2000); // Adding a short delay
           await page.waitForSelector(
             ".Table-sc-ziussd-1.ElementTable-sc-1v08od9-0.iPaulP.OZmJL",
             { timeout: 60000 }
@@ -144,7 +145,10 @@ const getDataFromFPLStatistics = async () => {
     });
     return tableData;
   } catch (error) {
-    console.error("An error occurred in getDataFromFPLStatistics:", error);
+    console.log(
+      "An error occurred in getDataFromFPLStatistics:",
+      error.message
+    );
     if (browser) await browser.close();
   }
 };
@@ -153,7 +157,12 @@ const getDataFromFBREF = async () => {
   let browser;
   try {
     browser = await puppeteer.launch({
-      args: ["--disable-setuid-sandbox", "--no-sandbox"],
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
       executablePath:
         process.env.NODE_ENV === "production"
           ? process.env.PUPPETEER_EXECUTABLE_PATH
@@ -161,7 +170,7 @@ const getDataFromFBREF = async () => {
     });
     const page = await browser.newPage();
     await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
-      waitUntil: "networkidle2",
+      waitUntil: "networkidle0",
       timeout: 60000,
     });
     await page.waitForSelector("#all_stats_standard", { timeout: 30000 });
@@ -213,7 +222,7 @@ const getDataFromFBREF = async () => {
     });
     return playerData;
   } catch (error) {
-    console.error("An error occurred in getDataFromFBREF:", error);
+    console.log("An error occurred in getDataFromFBREF:", error);
     if (browser) await browser.close();
   }
 };
@@ -222,7 +231,12 @@ const getTeamDefensiveStats = async () => {
   let browser;
   try {
     browser = await puppeteer.launch({
-      args: ["--disable-setuid-sandbox", "--no-sandbox"],
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
       executablePath:
         process.env.NODE_ENV === "production"
           ? process.env.PUPPETEER_EXECUTABLE_PATH
@@ -230,7 +244,7 @@ const getTeamDefensiveStats = async () => {
     });
     const page = await browser.newPage();
     await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
-      waitUntil: "networkidle2",
+      waitUntil: "networkidle0",
       timeout: 60000,
     });
 
@@ -286,7 +300,7 @@ const getTeamDefensiveStats = async () => {
     await browser.close();
     return array;
   } catch (error) {
-    console.error("An error occurred in getTeamDefensiveStats:", error);
+    console.log("An error occurred in getTeamDefensiveStats:", error.message);
     if (browser) await browser.close();
   }
 };
@@ -353,6 +367,6 @@ exports.mergeFBREFandFPLData = async () => {
     }
     return mergedData;
   } catch (error) {
-    console.error("An error occurred in mergeFBREFandFPLData:", error);
+    console.log("An error occurred in mergeFBREFandFPLData:", error.message);
   }
 };
