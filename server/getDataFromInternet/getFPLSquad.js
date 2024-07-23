@@ -11,7 +11,7 @@ exports.getFPLSquad = async (req, res) => {
     );
 
     await page.waitForSelector(
-      ".Pitch__ElementRow-sc-1mctasb-1.Pitch__PitchRow-sc-1mctasb-2.iAuEaL.gPAVqU"
+      ".Pitch__ElementRow-sc-1mctasb-1.Pitch__PitchRow-sc-1mctasb-2.iAuEaL.gPAVqU" // PITCH ELEMENT
     );
 
     const divs = await page.$$(

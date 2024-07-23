@@ -103,9 +103,12 @@ function ViewFPLSquad() {
           className="text-stone-800 text-sm w-[26rem] h-8 flex justify-center p-3"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
+          disabled
+          placeholder="Disabled until GW1"
         />
         <button
           type="submit"
+          disabled
           className="rounded-2xl text-xl px-6 py-2 bg-sky-700 mt-4 w-48 flex justify-center hover:bg-neutral-50 hover:text-neutral-800 transition-colors duration-300"
         >
           View my squad
@@ -128,10 +131,7 @@ function ViewFPLSquad() {
               players={players}
               stat={"Best Value (points per £)"}
             />
-            <AggregateSquadStats
-              players={players}
-              stat={"Most Owned Players"}
-            />
+            <AggregateSquadStats players={players} stat={"Most Owned Squad"} />
             <AggregateSquadStats players={players} stat={"Hidden Gems"} />
           </div>
         )}

@@ -4,7 +4,7 @@ function AggregateSquadStats({ players, stat }) {
     .sort((a, b) => b.totalPoints - a.totalPoints)
     .slice(0, 15);
   const cheapBeasts = [...players]
-    .filter((el) => el.season === "24-25")
+    .filter((el) => el.season === "24-25" && el.position !== "GKP")
     .sort((a, b) => b.totalPoints / b.price - a.totalPoints / a.price)
     .slice(0, 15);
   const GKTemplate = [...players]
@@ -25,10 +25,10 @@ function AggregateSquadStats({ players, stat }) {
     .slice(0, 3);
 
   return (
-    <div className="flex flex-col text-neutral-100 mt-8 p-4 max-h-[33rem] overflow-hidden">
+    <div className="flex flex-col text-neutral-100 mt-8 max-h-[33rem] overflow-hidden">
       <h1 className="text-2xl mx-10 capitalize">{stat}:</h1>
       <div className="overflow-y-auto">
-        {stat === "Most Owned Players" && (
+        {stat === "Most Owned Squad" && (
           <div>
             {GKTemplate.map((el) => (
               <button className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between">
@@ -38,7 +38,10 @@ function AggregateSquadStats({ players, stat }) {
                 </div>
                 <div className="text-right">
                   {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br /> {el.form}
+                  <br />{" "}
+                  {`${
+                    Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
+                  } points per start`}
                 </div>
               </button>
             ))}
@@ -50,7 +53,10 @@ function AggregateSquadStats({ players, stat }) {
                 </div>
                 <div className="text-right">
                   {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br /> {el.form}
+                  <br />{" "}
+                  {`${
+                    Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
+                  } points per start`}
                 </div>
               </button>
             ))}
@@ -62,7 +68,10 @@ function AggregateSquadStats({ players, stat }) {
                 </div>
                 <div className="text-right">
                   {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br /> {el.form}
+                  <br />{" "}
+                  {`${
+                    Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
+                  } points per start`}
                 </div>
               </button>
             ))}
@@ -74,7 +83,10 @@ function AggregateSquadStats({ players, stat }) {
                 </div>
                 <div className="text-right">
                   {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br /> {el.form}
+                  <br />{" "}
+                  {`${
+                    Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
+                  } points per start`}
                 </div>
               </button>
             ))}
