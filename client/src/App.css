@@ -4,20 +4,8 @@
   font-style: normal;
 }
 
-.onLoadHead {
-  animation: fade-in 1s;
-}
-
-.onLoadB1 {
-  animation: fade-in 2s;
-}
-
-.onLoadB2 {
-  animation: fade-in 15s;
-}
-
-.onLoadB3 {
-  animation: fade-in 20s;
+.onLoad {
+  animation: fade-in 3s;
 }
 
 @keyframes fade-in {

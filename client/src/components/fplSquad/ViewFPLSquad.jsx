@@ -138,7 +138,7 @@ function ViewFPLSquad() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full px-4">
+          <div className="onLoad flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full px-4">
             <div className="hidden md:flex">
               <AggregateSquadStats
                 players={players}
