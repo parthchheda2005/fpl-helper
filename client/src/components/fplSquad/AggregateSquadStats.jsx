@@ -2,11 +2,11 @@ function AggregateSquadStats({ players, stat }) {
   const hiddenGems = [...players]
     .filter((el) => el.season === "24-25" && el.ownership <= 10)
     .sort((a, b) => b.totalPoints - a.totalPoints)
-    .slice(0, 15);
+    .slice(0, 30);
   const cheapBeasts = [...players]
-    .filter((el) => el.season === "24-25" && el.position !== "GKP")
+    .filter((el) => el.season === "24-25" && el.position == "GKP")
     .sort((a, b) => b.totalPoints / b.price - a.totalPoints / a.price)
-    .slice(0, 15);
+    .slice(0, 30);
   const GKTemplate = [...players]
     .filter((el) => el.position === "GKP" && el.season === "24-25")
     .sort((a, b) => b.ownership - a.ownership)

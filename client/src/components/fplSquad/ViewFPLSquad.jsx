@@ -139,12 +139,28 @@ function ViewFPLSquad() {
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full px-4">
-            <AggregateSquadStats
-              players={players}
-              stat={"Best Value (points per £)"}
-            />
-            <AggregateSquadStats players={players} stat={"Most Owned Squad"} />
-            <AggregateSquadStats players={players} stat={"Hidden Gems"} />
+            <div className="hidden md:flex">
+              <AggregateSquadStats
+                players={players}
+                stat={"Best Value (points per £)"}
+              />
+              <AggregateSquadStats
+                players={players}
+                stat={"Most Owned Squad"}
+              />
+              <AggregateSquadStats players={players} stat={"Hidden Gems"} />
+            </div>
+            <div className="md:hidden">
+              <AggregateSquadStats
+                players={players}
+                stat={"Most Owned Squad"}
+              />
+              <AggregateSquadStats players={players} stat={"Hidden Gems"} />
+              <AggregateSquadStats
+                players={players}
+                stat={"Best Value (points per £)"}
+              />
+            </div>
           </div>
         )}
       </div>
