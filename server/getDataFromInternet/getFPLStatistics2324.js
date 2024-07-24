@@ -1,4 +1,6 @@
 const puppeteer = require("puppeteer");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const teamAcronymNameReference = {
   CHE: "Chelsea",
@@ -32,7 +34,12 @@ function removeSpecialCharacters(str) {
 
 const getDataFromFPLStatistics = async () => {
   try {
-    const browser = await puppeteer.launch({ headless: true }); // set headless to false for debugging
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      executablePath: process.env.NODE_ENV
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
+    }); // set headless to false for debugging
     const page = await browser.newPage();
     await page.goto("https://fantasy.premierleague.com/statistics", {
       waitUntil: "networkidle2",
@@ -134,7 +141,12 @@ const getDataFromFPLStatistics = async () => {
 };
 
 const getDataFromFBREF = async () => {
-  const browser = await puppeteer.launch(); // start puppeteer browser
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    executablePath: process.env.NODE_ENV
+      ? process.env.PUPPETEER_EXECUTABLE_PATH
+      : puppeteer.executablePath(),
+  }); // start puppeteer browser
   const page = await browser.newPage(); // start puppeteer page
   await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
     waitUntil: "networkidle2",
@@ -192,7 +204,12 @@ const getDataFromFBREF = async () => {
 };
 
 const getTeamDefensiveStats = async () => {
-  const browser = await puppeteer.launch(); // start puppeteer browser
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    executablePath: process.env.NODE_ENV
+      ? process.env.PUPPETEER_EXECUTABLE_PATH
+      : puppeteer.executablePath(),
+  }); // start puppeteer browser
   const page = await browser.newPage(); // start puppeteer page
   await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
     waitUntil: "networkidle2",

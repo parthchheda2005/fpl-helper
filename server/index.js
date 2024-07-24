@@ -35,8 +35,9 @@ app.get("/players/v1/pl/get", getPLData);
 
 app.get("/squad/v1/get/:id/:gw", getFPLSquad);
 
-const port = 8000;
-app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`App running on port ${PORT}...`);
   console.log(process.env.NODE_ENV);
 });
