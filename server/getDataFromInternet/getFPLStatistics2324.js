@@ -1,4 +1,5 @@
-const puppeteer = require("puppeteer");
+const chromium = require("chrome-aws-lambda");
+const puppeteer = require("puppeteer-core");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -35,11 +36,11 @@ function removeSpecialCharacters(str) {
 const getDataFromFPLStatistics = async () => {
   try {
     const browser = await puppeteer.launch({
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      executablePath: process.env.NODE_ENV
-        ? process.env.PUPPETEER_EXECUTABLE_PATH
-        : puppeteer.executablePath(),
-    }); // set headless to false for debugging
+      args: chromium.args,
+      executablePath:
+        process.env.CHROME_EXECUTABLE_PATH || (await chromium.executablePath),
+      headless: true,
+    });
     const page = await browser.newPage();
     await page.goto("https://fantasy.premierleague.com/statistics", {
       waitUntil: "networkidle2",
@@ -142,11 +143,11 @@ const getDataFromFPLStatistics = async () => {
 
 const getDataFromFBREF = async () => {
   const browser = await puppeteer.launch({
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    executablePath: process.env.NODE_ENV
-      ? process.env.PUPPETEER_EXECUTABLE_PATH
-      : puppeteer.executablePath(),
-  }); // start puppeteer browser
+    args: chromium.args,
+    executablePath:
+      process.env.CHROME_EXECUTABLE_PATH || (await chromium.executablePath),
+    headless: true,
+  });
   const page = await browser.newPage(); // start puppeteer page
   await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
     waitUntil: "networkidle2",
@@ -205,11 +206,11 @@ const getDataFromFBREF = async () => {
 
 const getTeamDefensiveStats = async () => {
   const browser = await puppeteer.launch({
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    executablePath: process.env.NODE_ENV
-      ? process.env.PUPPETEER_EXECUTABLE_PATH
-      : puppeteer.executablePath(),
-  }); // start puppeteer browser
+    args: chromium.args,
+    executablePath:
+      process.env.CHROME_EXECUTABLE_PATH || (await chromium.executablePath),
+    headless: true,
+  });
   const page = await browser.newPage(); // start puppeteer page
   await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
     waitUntil: "networkidle2",
@@ -221,9 +222,7 @@ const getTeamDefensiveStats = async () => {
   const element = await page.$(selector);
   if (element) {
     await element.click();
-    console.log("Element clicked successfully");
   } else {
-    console.log("Element not found");
     await browser.close();
     return;
   }
@@ -273,6 +272,7 @@ exports.mergeFBREFandFPLData = async () => {
   const dataFBREF = await getDataFromFBREF();
   const dataFPL = await getDataFromFPLStatistics();
   const dataDefensive = await getTeamDefensiveStats();
+  console.log();
 
   let mergedData = [];
   for (let i = 0; i < dataFPL.length; i++) {
