@@ -3,3 +3,28 @@
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+.onLoadHead {
+  animation: fade-in 1s;
+}
+
+.onLoadB1 {
+  animation: fade-in 2s;
+}
+
+.onLoadB2 {
+  animation: fade-in 15s;
+}
+
+.onLoadB3 {
+  animation: fade-in 20s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
+}
