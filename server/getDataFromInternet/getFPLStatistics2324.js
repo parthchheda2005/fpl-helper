@@ -52,7 +52,7 @@ const getDataFromFPLStatistics = async () => {
     }
 
     await page.waitForSelector(".Layout__Main-eg6k6r-1.wXYnc", {
-      timeout: 60000,
+      timeout: 120000,
     });
 
     let tableData = [];
@@ -63,7 +63,7 @@ const getDataFromFPLStatistics = async () => {
       pageNo++;
       await page.waitForSelector(
         ".Table-ziussd-1.ElementTable-sc-1v08od9-0.dUELIG.OZmJL",
-        { timeout: 60000 }
+        { timeout: 120000 }
       );
 
       const pageData = await page.evaluate(() => {
@@ -102,7 +102,7 @@ const getDataFromFPLStatistics = async () => {
           await nextButton.at(nextButton.length === 1 ? 0 : 1).click();
           await page.waitForSelector(
             ".Table-ziussd-1.ElementTable-sc-1v08od9-0.dUELIG.OZmJL",
-            { timeout: 60000 }
+            { timeout: 120000 }
           );
         }
       } else {
