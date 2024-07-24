@@ -4,7 +4,7 @@ function AggregateSquadStats({ players, stat }) {
     .sort((a, b) => b.totalPoints - a.totalPoints)
     .slice(0, 30);
   const cheapBeasts = [...players]
-    .filter((el) => el.season === "24-25" && el.position == "GKP")
+    .filter((el) => el.season === "24-25")
     .sort((a, b) => b.totalPoints / b.price - a.totalPoints / a.price)
     .slice(0, 30);
   const GKTemplate = [...players]
