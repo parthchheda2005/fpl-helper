@@ -12,8 +12,8 @@ function Settings({ enabledStatistics, setEnabledStatistics }) {
   }
 
   return (
-    <div className="h-screen min-w-max pt-[7vh] bg-neutral-800 text-stone-100 flex justify-center items-center text-3xl flex-col mt-5">
-      <h1>Enable/Disable Statistics: </h1>
+    <div className="h-full md:h-screen w-full pt-24 pb-10 bg-neutral-800 text-stone-100 flex justify-center items-center flex-col">
+      <h1 className="text-2xl font-bold">Enable/Disable Statistics: </h1>
       <div className="m-5 overflow-scroll">
         <h2 className="text-xl">General Statistics:</h2>
         <ul className="list-none text-lg">

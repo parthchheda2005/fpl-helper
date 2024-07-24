@@ -26,14 +26,14 @@ function AggregateSquadStats({ players, stat }) {
 
   return (
     <div className="flex flex-col text-neutral-100 h-[89vh] overflow-hidden">
-      <h1 className="text-2xl mx-10 capitalize">{stat}:</h1>
-      <div className="overflow-y-auto flex-grow">
+      <h1 className="text-2xl mx-4 md:mx-10 capitalize">{stat}:</h1>
+      <div className="overflow-y-auto flex-grow px-4 md:px-10">
         {stat === "Most Owned Squad" && (
           <div>
             {GKTemplate.map((el) => (
               <button
                 key={el.name}
-                className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
               >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
@@ -51,7 +51,7 @@ function AggregateSquadStats({ players, stat }) {
             {DEFTemplate.map((el) => (
               <button
                 key={el.name}
-                className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
               >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
@@ -69,7 +69,7 @@ function AggregateSquadStats({ players, stat }) {
             {MIDTemplate.map((el) => (
               <button
                 key={el.name}
-                className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
               >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
@@ -87,7 +87,7 @@ function AggregateSquadStats({ players, stat }) {
             {FWDTemplate.map((el) => (
               <button
                 key={el.name}
-                className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
               >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
@@ -108,7 +108,7 @@ function AggregateSquadStats({ players, stat }) {
           cheapBeasts.map((el) => (
             <button
               key={el.name}
-              className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+              className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
             >
               <div className="text-left">
                 {el.name} <br /> {el.team}
@@ -124,7 +124,7 @@ function AggregateSquadStats({ players, stat }) {
           hiddenGems.map((el) => (
             <button
               key={el.name}
-              className="min-w-96 h-24 text-neutral-100 bg-neutral-700 mx-10 my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+              className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
             >
               <div className="text-left">
                 {el.name} <br /> {el.team}

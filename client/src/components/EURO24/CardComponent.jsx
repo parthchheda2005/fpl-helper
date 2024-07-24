@@ -93,7 +93,7 @@ function CardComponent({
   return (
     <div className="w-96 rounded-2xl shadow-lg bg-neutral-700 mx-10 my-8 flex flex-col">
       <div className="px-6 py-4 justify-between flex items-center">
-        <h1 className="font-bold text-xl mb-2 items-center uppercase flex justify-center">
+        <h1 className="font-bold text-l sm:text-xl mb-2 items-center uppercase flex justify-center">
           {name}
         </h1>
         <button

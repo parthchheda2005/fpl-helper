@@ -97,8 +97,8 @@ function ViewFPLSquad() {
   };
 
   return (
-    <div className="h-screen w-screen pt-[7vh] bg-neutral-800 text-stone-100 flex items-center flex-col mt-5">
-      {/* <p className="text-2xl">
+    <div className="h-full lg:h-screen w-full pt-24 pb-10 bg-neutral-800 text-stone-100 flex justify-center items-center">
+      {/* <p className="text-2xl text-center px-4">
         Go to the Points Tab in the FPL Website and copy the URL:{" "}
       </p>
       <form
@@ -107,7 +107,7 @@ function ViewFPLSquad() {
       >
         <input
           type="text"
-          className="text-stone-800 text-sm w-[26rem] h-8 flex justify-center p-3"
+          className="text-stone-800 text-sm w-full max-w-xl h-8 flex justify-center p-3"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           disabled
@@ -121,13 +121,13 @@ function ViewFPLSquad() {
           View my squad
         </button>
       </form> */}
-      <div className="mt-5">
+      <div className="mt-5 w-full flex justify-center">
         {isLoading || players.length === 0 ? (
-          <div className="flex justify-center items-center w-full h-full scale-150">
+          <div className="flex justify-center items-center h-screen scale-150">
             <Spinner />
           </div>
         ) : url !== "" ? (
-          <div className="overflow-scroll">
+          <div className="overflow-auto w-full px-4">
             {squad.map((el) => (
               <SquadCard
                 key={el.id}
@@ -138,7 +138,7 @@ function ViewFPLSquad() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-row space-x-4 h-full">
+          <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full px-4">
             <AggregateSquadStats
               players={players}
               stat={"Best Value (points per £)"}

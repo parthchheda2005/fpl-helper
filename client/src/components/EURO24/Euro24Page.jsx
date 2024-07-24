@@ -67,7 +67,7 @@ function Euro24Page({ refreshPlayers, setRefreshPlayers, enabledStatistics }) {
 
   return (
     <div
-      className={`h-screen min-w-max pt-[7vh] bg-neutral-800 text-stone-100 overflow-y-hidden overflow-x-auto flex`}
+      className={`h-screen max-w-screen pt-[7vh] bg-neutral-800 text-stone-100 overflow-y-hidden overflow-x-auto flex`}
     >
       {isLoading || players.length === 0 ? (
         <div className="flex justify-center items-center w-full h-full scale-150">
