@@ -7,4 +7,4 @@ Features to come:
 - Compare player stats
 - Look at the transfers the FPL playerbase is leaning towards!
 
-## NOTE: Hosting service causes backend to wind down after inactivity, so loading times be 1-2 min.
+#### NOTE: Hosting service causes backend to wind down after inactivity, so loading times be 1-2 min.
