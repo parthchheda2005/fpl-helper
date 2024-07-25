@@ -5,4 +5,6 @@ Making a fantasy football helper for FPL using React, TailwindCSS and NodeJS!
 Features to come:
 
 - Compare player stats
-- Load your team from the official fpl website and plan transfers for this week!
+- Look at the transfers the FPL playerbase is leaning towards!
+
+## NOTE: Hosting service causes backend to wind down after inactivity, so loading times be 1-2 min.
