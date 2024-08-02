@@ -85,7 +85,7 @@ const getDataFromFPLStatistics = async () => {
           timeout: 60000,
         }
       );
-      await page.screenshot({ path: `screenshot.png` });
+      await page.screenshot({ path: `${__dirname}/screenshotFPL.png` });
 
       const nextButton = await page.$$(
         ".PaginatorButton__Button-sc-xqlaki-0.cmSnxm"
@@ -137,13 +137,21 @@ const getDataFromFPLStatistics = async () => {
 };
 
 const getDataFromFBREF = async () => {
-  const browser = await puppeteer.launch(); // start puppeteer browser
+  const browser = await puppeteer.launch({ headless: true }); // start puppeteer browser
   const page = await browser.newPage(); // start puppeteer page
-  await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
-    waitUntil: "networkidle2",
-  }); // go to the page
-  await page.screenshot({ path: `${__dirname}/screenshot.png` });
-  await page.waitForSelector("#all_stats_standard", { timeout: 30000 }); // wait for the head div to load
+  // await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
+  //   waitUntil: "networkidle2",
+  // });
+  await page.goto(
+    "https://fbref.com/en/comps/9/2023-2024/stats/2023-2024-Premier-League-Stats",
+    {
+      waitUntil: "networkidle2",
+    }
+  );
+  // go to the page
+  await page.screenshot({ path: `${__dirname}/screenshotFBREF.png` });
+  await page.waitForSelector("#all_stats_standard", { timeout: 120000 }); // wait for the head div to load
+  await page.screenshot({ path: `${__dirname}/screenshotFBREF2.png` });
   let playerData = await page.$eval("#all_stats_standard", (element) => {
     // select head div with a callback function to return something
     const innerDiv = element.querySelector("#div_stats_standard"); // select innerdiv
@@ -195,11 +203,18 @@ const getDataFromFBREF = async () => {
 };
 
 const getTeamDefensiveStats = async () => {
-  const browser = await puppeteer.launch(); // start puppeteer browser
+  const browser = await puppeteer.launch({ headless: true }); // start puppeteer browser
   const page = await browser.newPage(); // start puppeteer page
-  await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
-    waitUntil: "networkidle2",
-  });
+  // await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
+  //   waitUntil: "networkidle2",
+  // });
+
+  await page.goto(
+    "https://fbref.com/en/comps/9/2023-2024/stats/2023-2024-Premier-League-Stats",
+    {
+      waitUntil: "networkidle2",
+    }
+  );
 
   await page.waitForSelector(".filter.switcher");
 

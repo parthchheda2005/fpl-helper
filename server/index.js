@@ -7,6 +7,7 @@ const cron = require("node-cron");
 const {
   refreshEuroData,
   getEuroData,
+  keepDBActive,
 } = require("./controllers/euroController");
 const { refreshPLData, getPLData } = require("./controllers/plController");
 const { getFPLSquad } = require("./getDataFromInternet/getFPLSquad");
@@ -24,6 +25,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((con) => console.log("DB Connection successful"));
+
+app.get("/players/v1/keepDBActive", keepDBActive);
 
 app.get("/players/v1/euros/refresh", refreshEuroData);
 

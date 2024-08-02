@@ -26,3 +26,15 @@ exports.getEuroData = async (req, res) => {
     console.error(e);
   }
 };
+
+exports.keepDBActive = async (req, res) => {
+  try {
+    const data = await Euro.find().sort({ team: 1 }).sort({ name: 1 }).limit(5);
+    res.status(200).json({
+      status: "success",
+      data,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
