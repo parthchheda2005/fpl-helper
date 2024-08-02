@@ -35,7 +35,7 @@ function AggregateSquadStats({ players, stat }) {
             {GKTemplate.map((el) => (
               <button
                 key={el.name}
-                className="zoom-in w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
               >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
@@ -53,7 +53,7 @@ function AggregateSquadStats({ players, stat }) {
             {DEFTemplate.map((el) => (
               <button
                 key={el.name}
-                className="zoom-in w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
               >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
@@ -71,7 +71,7 @@ function AggregateSquadStats({ players, stat }) {
             {MIDTemplate.map((el) => (
               <button
                 key={el.name}
-                className="zoom-in w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
               >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
@@ -89,7 +89,7 @@ function AggregateSquadStats({ players, stat }) {
             {FWDTemplate.map((el) => (
               <button
                 key={el.name}
-                className="zoom-in w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
               >
                 <div className="text-left">
                   {el.name} <br /> {el.team}
@@ -110,7 +110,7 @@ function AggregateSquadStats({ players, stat }) {
           cheapBeasts.map((el) => (
             <button
               key={el.name}
-              className="zoom-in w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+              className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
             >
               <div className="text-left">
                 {el.name} <br /> {el.team}
@@ -126,7 +126,7 @@ function AggregateSquadStats({ players, stat }) {
           hiddenGems.map((el) => (
             <button
               key={el.name}
-              className="zoom-in w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
+              className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
             >
               <div className="text-left">
                 {el.name} <br /> {el.team}

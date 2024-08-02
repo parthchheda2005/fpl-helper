@@ -97,7 +97,7 @@ function ViewFPLSquad() {
   };
 
   return (
-    <div className="h-full lg:h-screen w-full pt-24 pb-10 bg-neutral-800 text-stone-100 flex justify-center items-center">
+    <div className="onLoad h-full lg:h-screen w-full pt-24 pb-10 bg-neutral-800 text-stone-100 flex justify-center items-center">
       {/* <p className="text-2xl text-center px-4">
         Go to the Points Tab in the FPL Website and copy the URL:{" "}
       </p>

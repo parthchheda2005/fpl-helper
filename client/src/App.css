@@ -5,7 +5,7 @@
 }
 
 .onLoad {
-  animation: fade-in 3s;
+  animation: fade-in 1s;
 }
 
 @keyframes fade-in {
