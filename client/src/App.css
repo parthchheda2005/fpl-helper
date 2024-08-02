@@ -19,7 +19,7 @@
 
 @keyframes bounceIn {
   0% {
-    transform: translateY(-300%);
+    transform: translateY(-400%);
   }
   60% {
     transform: translateY(10%);
@@ -33,7 +33,7 @@
 }
 
 .bounce-in {
-  animation: bounceIn 1s ease-in-out forwards;
+  animation: bounceIn 2s ease-in-out forwards;
 }
 
 @keyframes comeIn {
@@ -52,7 +52,7 @@
 }
 
 .come-in {
-  animation: comeIn 1s ease-in-out forwards;
+  animation: comeIn 2s ease-in-out forwards;
 }
 
 @keyframes zoomIn {
