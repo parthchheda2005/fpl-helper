@@ -5,7 +5,11 @@ import ValueCard from "./ValueCard";
 function AggregateSquadStats({ players, stat }) {
   const hiddenGems = [...players]
     .filter(
-      (el) => el.season === "24-25" && el.ownership <= 10 && el.name !== "Diaby"
+      (el) =>
+        el.season === "24-25" &&
+        el.ownership <= 10 &&
+        el.name !== "Diaby" &&
+        el.name !== "Gross"
     )
     .sort((a, b) => b.totalPoints - a.totalPoints)
     .slice(0, 30);
