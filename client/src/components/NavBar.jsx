@@ -11,16 +11,40 @@ function NavBar() {
     "text-sky-100 font-bold text-sm px-2 py-1 border-2 border-gray-100 hover:bg-gray-100 hover:text-gray-800 rounded-lg transition duration-300 m-1";
   const buttons = (
     <>
-      <button onClick={() => navigate("/euro-24")} className={buttonClass}>
+      <button
+        onClick={() => {
+          setIsOpen(false);
+          navigate("/euro-24");
+        }}
+        className={buttonClass}
+      >
         EURO24 Data
       </button>
-      <button onClick={() => navigate("/fpl")} className={buttonClass}>
+      <button
+        onClick={() => {
+          setIsOpen(false);
+          navigate("/fpl");
+        }}
+        className={buttonClass}
+      >
         FPL Data
       </button>
-      <button onClick={() => navigate("/fpl-squad")} className={buttonClass}>
+      <button
+        onClick={() => {
+          setIsOpen(false);
+          navigate("/fpl-squad");
+        }}
+        className={buttonClass}
+      >
         FPL Playerbase Data
       </button>
-      <button onClick={() => navigate("/settings")} className={buttonClass}>
+      <button
+        onClick={() => {
+          setIsOpen(false);
+          navigate("/settings");
+        }}
+        className={buttonClass}
+      >
         Settings
       </button>
     </>
@@ -56,8 +80,9 @@ function NavBar() {
       </div>
       <div>
         <div
-          className={`${isOpen ? `fixed left-0` : `fixed left-[-200%]`}
-          bg-sky-700 px-2 pt-2 pb-3 space-y-1 sm:px-3 top-16 ease-in-out duration-300 md:hidden`}
+          className={`${
+            isOpen ? "fixed left-0" : "fixed left-[-200%]"
+          } bg-sky-700 flex flex-row justify-between px-2 pt-2 pb-3 space-y-1 sm:px-3 top-16 ease-in-out duration-300 md:hidden h-24`}
         >
           {buttons}
         </div>
