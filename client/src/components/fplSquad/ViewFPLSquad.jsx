@@ -121,7 +121,7 @@ function ViewFPLSquad() {
           View my squad
         </button>
       </form> */}
-      <div className="onLoad mt-5 w-full flex justify-center">
+      <div className="mt-5 w-full flex justify-center">
         {isLoading || players.length === 0 ? (
           <div className="flex justify-center items-center h-screen scale-150">
             <Spinner />
@@ -138,7 +138,7 @@ function ViewFPLSquad() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full px-4">
+          <div className="onLoad flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full px-4">
             <div className="hidden md:flex">
               <AggregateSquadStats
                 players={players}
