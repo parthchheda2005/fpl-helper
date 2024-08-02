@@ -97,7 +97,7 @@ function ViewFPLSquad() {
   };
 
   return (
-    <div className="onLoad h-full lg:h-screen w-full pt-24 pb-10 bg-neutral-800 text-stone-100 flex justify-center items-center">
+    <div className="h-full lg:h-screen w-full pt-24 pb-10 bg-neutral-800 text-stone-100 flex justify-center items-center">
       {/* <p className="text-2xl text-center px-4">
         Go to the Points Tab in the FPL Website and copy the URL:{" "}
       </p>
@@ -121,7 +121,7 @@ function ViewFPLSquad() {
           View my squad
         </button>
       </form> */}
-      <div className="mt-5 w-full flex justify-center">
+      <div className="onLoad mt-5 w-full flex justify-center">
         {isLoading || players.length === 0 ? (
           <div className="flex justify-center items-center h-screen scale-150">
             <Spinner />
