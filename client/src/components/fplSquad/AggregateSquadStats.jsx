@@ -1,3 +1,7 @@
+import GemsCard from "./GemsCard";
+import TemplateCard from "./TemplateCard";
+import ValueCard from "./ValueCard";
+
 function AggregateSquadStats({ players, stat }) {
   const hiddenGems = [...players]
     .filter(
@@ -33,111 +37,23 @@ function AggregateSquadStats({ players, stat }) {
         {stat === "Most Owned Squad" && (
           <div>
             {GKTemplate.map((el) => (
-              <button
-                key={el.name}
-                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
-              >
-                <div className="text-left">
-                  {el.name} <br /> {el.team}
-                  <br /> {el.position}
-                </div>
-                <div className="text-right">
-                  {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br />
-                  {`${
-                    Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
-                  } points per start`}
-                </div>
-              </button>
+              <TemplateCard player={el} />
             ))}
             {DEFTemplate.map((el) => (
-              <button
-                key={el.name}
-                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
-              >
-                <div className="text-left">
-                  {el.name} <br /> {el.team}
-                  <br /> {el.position}
-                </div>
-                <div className="text-right">
-                  {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br />
-                  {`${
-                    Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
-                  } points per start`}
-                </div>
-              </button>
+              <TemplateCard player={el} />
             ))}
             {MIDTemplate.map((el) => (
-              <button
-                key={el.name}
-                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
-              >
-                <div className="text-left">
-                  {el.name} <br /> {el.team}
-                  <br /> {el.position}
-                </div>
-                <div className="text-right">
-                  {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br />
-                  {`${
-                    Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
-                  } points per start`}
-                </div>
-              </button>
+              <TemplateCard player={el} />
             ))}
             {FWDTemplate.map((el) => (
-              <button
-                key={el.name}
-                className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
-              >
-                <div className="text-left">
-                  {el.name} <br /> {el.team}
-                  <br /> {el.position}
-                </div>
-                <div className="text-right">
-                  {`${el.ownership}%`} <br /> {`£${el.price}`}
-                  <br />
-                  {`${
-                    Math.round((el.totalPoints / el.matchesStarted) * 10) / 10
-                  } points per start`}
-                </div>
-              </button>
+              <TemplateCard player={el} />
             ))}
           </div>
         )}
         {stat === "Best Value (points per £)" &&
-          cheapBeasts.map((el) => (
-            <button
-              key={el.name}
-              className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
-            >
-              <div className="text-left">
-                {el.name} <br /> {el.team}
-                <br /> {`${el.position}`}
-              </div>
-              <div className="text-right">
-                {`${el.ownership}%`} <br /> {`£${el.price}`}
-                <br /> {`${Math.round(el.totalPoints / el.price)} pts per £`}
-              </div>
-            </button>
-          ))}
+          cheapBeasts.map((el) => <ValueCard player={el} />)}
         {stat === "Hidden Gems" &&
-          hiddenGems.map((el) => (
-            <button
-              key={el.name}
-              className="w-full md:w-[24rem] h-24 text-neutral-100 bg-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between"
-            >
-              <div className="text-left">
-                {el.name} <br /> {el.team}
-                <br /> {el.position}
-              </div>
-              <div className="text-right">
-                {`${el.ownership}%`} <br /> {`£${el.price}`}
-                <br /> {`${el.totalPoints} points`}
-              </div>
-            </button>
-          ))}
+          hiddenGems.map((el) => <GemsCard player={el} />)}
       </div>
     </div>
   );
