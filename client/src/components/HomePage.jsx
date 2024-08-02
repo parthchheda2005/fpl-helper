@@ -12,7 +12,7 @@ function HomePage() {
           className={`relative bounce-in sm:text-5xl text-center font-semibold w-full text-2xl px-4 mb-7`}
         >
           <h1 className="m-3">Welcome to your</h1>
-          <h1 className="m-3">⚽️ Fantasy Football Helper ⚽️</h1>
+          <h1 className="m-3">Fantasy Football Helper</h1>
         </div>
         <div
           className={`relative come-in m-5 text-neutral-800 flex flex-wrap justify-center`}
