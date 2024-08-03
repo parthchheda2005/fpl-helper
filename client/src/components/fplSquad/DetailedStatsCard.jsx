@@ -23,12 +23,12 @@ function DetailedStatsCard({ player }) {
     xGAllowedPer90,
   } = player;
   return (
-    <div className="">
+    <div className="transition-all ease-in-out duration-500">
       <h1 className="flex justify-center text-lg sm:text-xl">
         {name} Detailed Stats:
       </h1>
-      <div className="w-full md:w-[24rem] bg-neutral-100 text-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between">
-        <div>
+      <div className="text-sm md:text-md min-w-full md:w-[24rem] bg-neutral-100 text-neutral-700 my-4 md:my-8 shadow-lg rounded-lg px-3 py-3 flex items-center justify-between">
+        <div className="pr-6 border-dashed border-r-4">
           {team} <br /> {`${form} form`}
           <br /> {`${ownership}% owned`} <br /> {`${totalPoints} points`} <br />{" "}
           {`£${price}`} <br /> {`${Math.round(totalPoints / price)} pts per £`}{" "}
@@ -41,7 +41,7 @@ function DetailedStatsCard({ player }) {
             Math.round((totalPoints * 10) / (minPlayed / 90)) / 10
           } points per 90`}
         </div>
-        <div>
+        <div className="pl-3">
           {`${matchesStarted} games started`} <br /> {`${matchesPlayed} played`}{" "}
           <br /> {`${minPlayed} min played`} <br />{" "}
           {position === "GKP" ? (
