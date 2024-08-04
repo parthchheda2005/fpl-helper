@@ -18,6 +18,7 @@ function App() {
     "price",
     "form",
     "totalPoints",
+    "fixtureDifficultyRanking",
     "matchesPlayed",
     "matchesStarted",
     "minPlayed",

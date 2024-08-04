@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 function Settings({ enabledStatistics, setEnabledStatistics }) {
   function handleChange(e) {
     const { value, checked } = e.target;
@@ -190,6 +188,15 @@ function Settings({ enabledStatistics, setEnabledStatistics }) {
               onChange={(e) => handleChange(e)}
             />
             <span className="mx-3">Total Points</span>
+          </li>
+          <li>
+            <input
+              type="checkbox"
+              value="fixtureDifficultyRanking"
+              checked={enabledStatistics.includes("fixtureDifficultyRanking")}
+              onChange={(e) => handleChange(e)}
+            />
+            <span className="mx-3">Fixture Difficulty Ranking</span>
           </li>
           <li>
             <input

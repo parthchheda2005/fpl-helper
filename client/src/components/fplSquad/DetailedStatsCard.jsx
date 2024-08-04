@@ -21,6 +21,7 @@ function DetailedStatsCard({ player }) {
     goalsAllowed,
     goalsAllowedPer90,
     xGAllowedPer90,
+    fixtureDifficultyRanking,
   } = player;
   return (
     <div className="transition-all ease-in-out duration-500">
@@ -40,6 +41,8 @@ function DetailedStatsCard({ player }) {
           {`${
             Math.round((totalPoints * 10) / (minPlayed / 90)) / 10
           } points per 90`}
+          <br />
+          {`Fixture Difficulty Ranking: ${fixtureDifficultyRanking}`}
         </div>
         <div className="pl-3">
           {`${matchesStarted} games started`} <br /> {`${matchesPlayed} played`}{" "}
