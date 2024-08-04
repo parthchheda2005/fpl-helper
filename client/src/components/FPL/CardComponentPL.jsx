@@ -47,6 +47,35 @@ function CardComponentPL({
       "xGPer90",
       "xGAPer90",
       "npXGAPer90",
+      "price",
+      "fixtureDifficultyRanking",
+      "goalsAllowed",
+      "goalsAllowedPer90",
+      "xGAllowedPer90",
+    ];
+
+    const statsMaxBetter = [
+      "form",
+      "totalPoints",
+      "matchesPlayed",
+      "matchesStarted",
+      "minPlayed",
+      "goals",
+      "assists",
+      "ga",
+      "penalties",
+      "gaPer90",
+      "xGPer90",
+      "xGAPer90",
+      "npXGAPer90",
+    ];
+
+    const statsMinBetter = [
+      "price",
+      "fixtureDifficultyRanking",
+      "goalsAllowed",
+      "goalsAllowedPer90",
+      "xGAllowedPer90",
     ];
 
     let updatedSelectedPlayers = selectedPlayers
@@ -64,9 +93,22 @@ function CardComponentPL({
 
         updatedSelectedPlayers = updatedSelectedPlayers.map((player) => {
           const newStatus = { ...player.statsHighlightStatus };
-          if (player[stat] * 1 === max) {
+          if (player[stat] * 1 === max && statsMaxBetter.includes(stat)) {
             newStatus[stat] = "max";
-          } else if (player[stat] * 1 === min) {
+          } else if (
+            player[stat] * 1 === min &&
+            statsMaxBetter.includes(stat)
+          ) {
+            newStatus[stat] = "min";
+          } else if (
+            player[stat] * 1 === min &&
+            statsMinBetter.includes(stat)
+          ) {
+            newStatus[stat] = "max";
+          } else if (
+            player[stat] * 1 === max &&
+            statsMinBetter.includes(stat)
+          ) {
             newStatus[stat] = "min";
           } else {
             newStatus[stat] = "none";
@@ -127,16 +169,37 @@ function CardComponentPL({
           <StatComponent type="position" data={position} />
         )}
         {enabledStatistics.includes("ownership") && (
-          <StatComponent type="ownership" data={ownership} />
+          <StatComponent
+            type="ownership"
+            data={ownership}
+            highlight={
+              enabledStatistics.includes("ownership")
+                ? statsHighlightStatus.ownership
+                : ""
+            }
+          />
         )}
         {enabledStatistics.includes("price") && (
-          <StatComponent type="price" data={price} />
+          <StatComponent
+            type="price"
+            data={price}
+            highlight={
+              enabledStatistics.includes("price")
+                ? statsHighlightStatus.price
+                : ""
+            }
+          />
         )}
         {player.fixtureDifficultyRanking &&
           enabledStatistics.includes("fixtureDifficultyRanking") && (
             <StatComponent
               type="Fixture Difficulty Ranking"
               data={player.fixtureDifficultyRanking}
+              highlight={
+                enabledStatistics.includes("fixtureDifficultyRanking")
+                  ? statsHighlightStatus.fixtureDifficultyRanking
+                  : ""
+              }
             />
           )}
         {enabledStatistics.includes("form") && (
@@ -283,16 +346,37 @@ function CardComponentPL({
           />
         )}
         {enabledStatistics.includes("goalsAllowed") && (
-          <StatComponent type="Team Goals Conceded" data={goalsAllowed} />
+          <StatComponent
+            type="Team Goals Conceded"
+            data={goalsAllowed}
+            highlight={
+              enabledStatistics.includes("goalsAllowed")
+                ? statsHighlightStatus.goalsAllowed
+                : ""
+            }
+          />
         )}
         {enabledStatistics.includes("goalsAllowedPer90") && (
           <StatComponent
             type="Team Goals Conceded Per 90"
             data={goalsAllowedPer90}
+            highlight={
+              enabledStatistics.includes("goalsAllowedPer90")
+                ? statsHighlightStatus.goalsAllowedPer90
+                : ""
+            }
           />
         )}
         {enabledStatistics.includes("xGAllowedPer90") && (
-          <StatComponent type="xG Conceded Per 90" data={xGAllowedPer90} />
+          <StatComponent
+            type="xG Conceded Per 90"
+            data={xGAllowedPer90}
+            highlight={
+              enabledStatistics.includes("xGAllowedPer90")
+                ? statsHighlightStatus.xGAllowedPer90
+                : ""
+            }
+          />
         )}
       </div>
     </div>

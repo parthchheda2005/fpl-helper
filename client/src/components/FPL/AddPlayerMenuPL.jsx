@@ -32,6 +32,35 @@ function AddPlayerMenu({
       "xGPer90",
       "xGAPer90",
       "npXGAPer90",
+      "price",
+      "fixtureDifficultyRanking",
+      "goalsAllowed",
+      "goalsAllowedPer90",
+      "xGAllowedPer90",
+    ];
+
+    const statsMaxBetter = [
+      "form",
+      "totalPoints",
+      "matchesPlayed",
+      "matchesStarted",
+      "minPlayed",
+      "goals",
+      "assists",
+      "ga",
+      "penalties",
+      "gaPer90",
+      "xGPer90",
+      "xGAPer90",
+      "npXGAPer90",
+    ];
+
+    const statsMinBetter = [
+      "price",
+      "fixtureDifficultyRanking",
+      "goalsAllowed",
+      "goalsAllowedPer90",
+      "xGAllowedPer90",
     ];
 
     let updatedSelectedPlayers = [...selectedPlayers, newPlayer];
@@ -39,18 +68,31 @@ function AddPlayerMenu({
     if (updatedSelectedPlayers.length > 1) {
       stats.forEach((stat) => {
         let max = Math.max(
-          ...updatedSelectedPlayers.map((player) => player[stat])
+          ...updatedSelectedPlayers.map((player) => player[stat] * 1)
         );
         let min = Math.min(
-          ...updatedSelectedPlayers.map((player) => player[stat])
+          ...updatedSelectedPlayers.map((player) => player[stat] * 1)
         );
 
         updatedSelectedPlayers = updatedSelectedPlayers.map((player) => {
           const newStatus = { ...player.statsHighlightStatus };
-          if (player[stat] * 1 === max) {
+          if (player[stat] * 1 === max && statsMaxBetter.includes(stat)) {
             newStatus[stat] = "max";
-          } else if (player[stat] * 1 === min) {
+          } else if (
+            player[stat] * 1 === min &&
+            statsMaxBetter.includes(stat)
+          ) {
             newStatus[stat] = "min";
+          } else if (
+            player[stat] * 1 === max &&
+            statsMinBetter.includes(stat)
+          ) {
+            newStatus[stat] = "min";
+          } else if (
+            player[stat] * 1 === min &&
+            statsMinBetter.includes(stat)
+          ) {
+            newStatus[stat] = "max";
           } else {
             newStatus[stat] = "none";
           }
