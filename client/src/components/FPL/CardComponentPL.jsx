@@ -132,12 +132,13 @@ function CardComponentPL({
         {enabledStatistics.includes("price") && (
           <StatComponent type="price" data={price} />
         )}
-        {enabledStatistics.includes("fixtureDifficultyRanking") && (
-          <StatComponent
-            type="Fixture Difficulty Ranking"
-            data={player.fixtureDifficultyRanking}
-          />
-        )}
+        {player.fixtureDifficultyRanking &&
+          enabledStatistics.includes("fixtureDifficultyRanking") && (
+            <StatComponent
+              type="Fixture Difficulty Ranking"
+              data={player.fixtureDifficultyRanking}
+            />
+          )}
         {enabledStatistics.includes("form") && (
           <StatComponent
             type="form"
