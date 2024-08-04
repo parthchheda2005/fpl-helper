@@ -43,6 +43,9 @@ const plSchema = new mongoose.Schema({
     type: Number,
     required: [true, "A player must have a value for their total points"],
   },
+  fixtureDifficultyRanking: {
+    type: Number,
+  },
   matchesPlayed: {
     type: Number,
     required: [true, "A player must have a value for matches played"],

@@ -269,14 +269,49 @@ const getTeamDefensiveStats = async () => {
   return array;
 };
 
+const getFixtureDifficulty = async () => {
+  const browser = await puppeteer.launch({ headless: true }); // start puppeteer browser
+  const page = await browser.newPage(); // start puppeteer page
+  await page.goto(
+    "https://www.premierfantasytools.com/fpl-fixture-difficulty/",
+    {
+      waitUntil: "networkidle2",
+    }
+  );
+
+  const pageData = await page.evaluate(() => {
+    const table = document.querySelector("#fixtures");
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    return rows.map((row) => {
+      const team = row.querySelector("th").getAttribute("data-difficulty");
+      const fixtureDifficulty = row
+        .querySelector("td")
+        .getAttribute("data-difficulty");
+      return { team, fixtureDifficulty };
+    });
+  });
+
+  await page.close();
+  await browser.close();
+  return pageData;
+};
+
 exports.mergeFBREFandFPLData = async () => {
   const dataFPL = await getDataFromFPLStatistics();
   const dataFBREF = await getDataFromFBREF();
   const dataDefensive = await getTeamDefensiveStats();
+  const fixtureDifficultyData = await getFixtureDifficulty();
 
   let mergedData = [];
   for (let i = 0; i < dataFPL.length; i++) {
     let playerFPL = { ...dataFPL.at(i) };
+    const playerFixtureDifficulty =
+      fixtureDifficultyData.find((el) => el.team === playerFPL.team)
+        ?.fixtureDifficulty * 1 ||
+      fixtureDifficultyData.find((el) => el.team === "BRI")?.fixtureDifficulty *
+        1;
     let playerTeam = teamAcronymNameReference[playerFPL.team];
     let playerName = playerFPL.name;
     if (playerName.includes("-")) {
@@ -312,6 +347,7 @@ exports.mergeFBREFandFPLData = async () => {
       price: playerFPL.price,
       form: playerFPL.form,
       totalPoints: playerFPL.totalPoints,
+      fixtureDifficultyRanking: playerFixtureDifficulty || 0,
       matchesPlayed: playerFBREF?.matchesPlayed || 0,
       matchesStarted: playerFBREF?.matchesStarted || 0,
       minPlayed: playerFBREF?.minPlayed || 0,
