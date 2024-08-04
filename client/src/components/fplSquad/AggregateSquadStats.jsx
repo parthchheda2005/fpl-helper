@@ -7,7 +7,7 @@ function AggregateSquadStats({ players, stat }) {
     .filter(
       (el) =>
         el.season === "24-25" &&
-        el.ownership <= 10 &&
+        el.ownership < 15 &&
         el.name !== "Diaby" &&
         el.name !== "Gross"
     )
