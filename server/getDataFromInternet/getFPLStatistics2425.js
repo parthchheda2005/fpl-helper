@@ -279,6 +279,8 @@ const getFixtureDifficulty = async () => {
     }
   );
 
+  await page.waitForSelector("#fixtures", { timeout: 60000 });
+
   const pageData = await page.evaluate(() => {
     const table = document.querySelector("#fixtures");
     const tbody = table.querySelector("tbody");

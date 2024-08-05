@@ -272,7 +272,6 @@ exports.mergeFBREFandFPLData = async () => {
   const dataFBREF = await getDataFromFBREF();
   const dataFPL = await getDataFromFPLStatistics();
   const dataDefensive = await getTeamDefensiveStats();
-  console.log();
 
   let mergedData = [];
   for (let i = 0; i < dataFPL.length; i++) {
