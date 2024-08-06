@@ -9,7 +9,8 @@ function AggregateSquadStats({ players, stat }) {
         el.season === "24-25" &&
         el.ownership < 15 &&
         el.name !== "Diaby" &&
-        el.name !== "Gross"
+        el.name !== "Gross" &&
+        el.name !== "Gallagher"
     )
     .sort((a, b) => b.totalPoints - a.totalPoints)
     .slice(0, 30);
