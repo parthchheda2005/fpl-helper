@@ -82,7 +82,7 @@ function NavBar() {
         <div
           className={`${
             isOpen ? "fixed left-0" : "fixed left-[-200%]"
-          } bg-sky-700 flex flex-row justify-between px-2 pt-2 pb-3 space-y-1 sm:px-3 top-16 ease-in-out duration-500 md:hidden h-24`}
+          } bg-sky-700 flex flex-row justify-between px-2 pt-2 pb-3 space-y-1 sm:px-3 top-16 ease-in-out duration-500 md:hidden h-24 min-w-full`}
         >
           {buttons}
         </div>

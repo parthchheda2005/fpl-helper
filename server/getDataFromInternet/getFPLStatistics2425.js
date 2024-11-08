@@ -11,7 +11,7 @@ const teamAcronymNameReference = {
   BOU: "Bournemouth",
   BRE: "Brentford",
   BHA: "Brighton",
-  LEI: "Leicster City",
+  LEI: "Leicester City",
   CRY: "Crystal Palace",
   FUL: "Fulham",
   IPS: "Ipswich Town",
@@ -139,15 +139,10 @@ const getDataFromFPLStatistics = async () => {
 const getDataFromFBREF = async () => {
   const browser = await puppeteer.launch({ headless: true }); // start puppeteer browser
   const page = await browser.newPage(); // start puppeteer page
-  // await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
-  //   waitUntil: "networkidle2",
-  // });
-  await page.goto(
-    "https://fbref.com/en/comps/9/2023-2024/stats/2023-2024-Premier-League-Stats",
-    {
-      waitUntil: "networkidle2",
-    }
-  );
+  await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
+    waitUntil: "networkidle2",
+  });
+
   // go to the page
   await page.screenshot({ path: `${__dirname}/screenshotFBREF.png` });
   await page.waitForSelector("#all_stats_standard", { timeout: 120000 }); // wait for the head div to load
@@ -205,16 +200,9 @@ const getDataFromFBREF = async () => {
 const getTeamDefensiveStats = async () => {
   const browser = await puppeteer.launch({ headless: true }); // start puppeteer browser
   const page = await browser.newPage(); // start puppeteer page
-  // await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
-  //   waitUntil: "networkidle2",
-  // });
-
-  await page.goto(
-    "https://fbref.com/en/comps/9/2023-2024/stats/2023-2024-Premier-League-Stats",
-    {
-      waitUntil: "networkidle2",
-    }
-  );
+  await page.goto("https://fbref.com/en/comps/9/stats/Premier-League-Stats", {
+    waitUntil: "networkidle2",
+  });
 
   await page.waitForSelector(".filter.switcher");
 
@@ -280,7 +268,7 @@ const getFixtureDifficulty = async () => {
   );
 
   await page.waitForSelector("#fixtures", { timeout: 60000 });
-
+  console.log("found fixtures table");
   const pageData = await page.evaluate(() => {
     const table = document.querySelector("#fixtures");
     const tbody = table.querySelector("tbody");
